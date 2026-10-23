@@ -41,7 +41,7 @@ const categories = [...new Set(challenges.map((c) => c.data.category))].sort();
         </thead>
         <tbody>
           {challenges.map((c) => (
-            <tr data-cat={c.data.category}>
+            <tr data-cat={c.data.category} class="glow-row">
               <td>
                 <a href={`/ctf/${c.id}/`}>{c.data.title}</a>
                 {c.data.draft && <span class="draft small">draft</span>}
@@ -106,6 +106,10 @@ const categories = [...new Set(challenges.map((c) => c.data.category))].sort();
     border-collapse: collapse;
     border-top: 2px solid var(--ink);
   }
+  .chals td a {
+    color: var(--ink);
+    text-decoration-color: var(--accent);
+  }
   th {
     text-align: left;
     font-size: var(--t-small);
@@ -129,10 +133,39 @@ const categories = [...new Set(challenges.map((c) => c.data.category))].sort();
   }
   .diff {
     font-size: var(--t-small);
+    white-space: nowrap;
   }
-  .d-hard,
-  .d-insane {
+  /* Difficulty as a light that gets warmer the deeper the challenge. */
+  .diff::before {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.45em;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 8px var(--c);
+    vertical-align: 0.05em;
+  }
+  .d-easy {
+    --c: var(--cyan);
+  }
+  .d-medium {
+    --c: #8be0b0;
+  }
+  .d-hard {
+    --c: var(--accent);
     font-weight: 650;
+  }
+  .d-insane {
+    --c: #ff8a7a;
+    font-weight: 650;
+  }
+  @media (min-width: 40.01rem) {
+    td:nth-child(2) {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+    }
   }
   .draft {
     color: var(--accent);

@@ -10,7 +10,7 @@ const { items } = Astro.props;
 <ol class="research" role="list">
   {
     items.map(({ data }) => (
-      <li>
+      <li class="glow-row">
         <div class="id">
           <span class="cve">{data.cve ?? data.target}</span>
           <span class="year muted">{data.year}</span>
@@ -45,8 +45,14 @@ const { items } = Astro.props;
     font-variant-numeric: tabular-nums;
   }
   .cve {
+    font-family: var(--mono);
+    font-size: 0.9rem;
     font-weight: 600;
-    letter-spacing: -0.005em;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .year {
+    font-size: var(--t-small);
   }
   h3 {
     margin: 0 0 0.2rem;
@@ -63,8 +69,13 @@ const { items } = Astro.props;
     color: var(--muted);
   }
   .kind {
-    text-align: right;
-    padding-top: 0.15rem;
+    justify-self: end;
+    align-self: start;
+    margin-top: 0.15rem;
+    padding: 0.05rem 0.55rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    white-space: nowrap;
   }
   @media (max-width: 40rem) {
     li {
@@ -75,8 +86,8 @@ const { items } = Astro.props;
       gap: 0.6rem;
     }
     .kind {
-      text-align: left;
-      padding-top: 0;
+      justify-self: start;
+      margin-top: 0.3rem;
     }
   }
 </style>

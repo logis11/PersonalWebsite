@@ -1,19 +1,23 @@
 ---
 import '../styles/global.css';
+import Abyss from '../components/Abyss.astro';
 import { SITE, NAV } from '../site';
 
 interface Props {
   title?: string;
   description?: string;
+  lost?: boolean; // 404: the depth gauge reads ????
 }
-const { title, description = SITE.description } = Astro.props;
+const { title, description = SITE.description, lost = false } = Astro.props;
 const fullTitle = title ? `${title} | ${SITE.name}` : SITE.title;
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
+const home = path === '/';
+const depth = NAV.find((n) => path.startsWith(n.href))?.depth ?? 3600;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class={home ? 'home' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,24 +30,28 @@ const canonical = new URL(path, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
-    <meta name="theme-color" content="#eceff1" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#12181f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#04111d" />
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <header class="site-header wrap">
-      <a class="brand" href="/" aria-current={path === '/' ? 'page' : undefined}>{SITE.name}</a>
-      <nav aria-label="Main">
-        {
-          NAV.map((item) => (
-            <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
+    <Abyss eel={home} meters={home ? [0, 1000] : [depth, depth + 300]} lost={lost} />
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href="/" aria-current={home ? 'page' : undefined}>
+          <span class="lure" aria-hidden="true"></span>{SITE.name}
+        </a>
+        <nav aria-label="Main">
+          {
+            NAV.map((item) => (
+              <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
     </header>
-    <main id="main" class="wrap">
+    <main id="main" class={home ? 'wrap' : 'wrap enter'}>
       <slot />
     </main>
     <footer class="site-footer wrap small muted">
@@ -55,6 +63,13 @@ const canonical = new URL(path, Astro.site);
         <a href="/contact/">Contact</a>
       </span>
     </footer>
+    <script>
+      // Frost the header once the page has scrolled under it.
+      const header = document.querySelector('.site-header')!;
+      const onScroll = () => header.classList.toggle('scrolled', scrollY > 8);
+      addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    </script>
   </body>
 </html>
 
@@ -72,19 +87,53 @@ const canonical = new URL(path, Astro.site);
     z-index: 10;
   }
   .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    padding-top: env(safe-area-inset-top, 0px);
+    margin-bottom: 3.5rem;
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.3s,
+      border-color 0.3s;
+  }
+  .site-header.scrolled {
+    background: rgb(4 17 29 / 0.72);
+    border-bottom-color: var(--rule);
+    backdrop-filter: blur(10px) saturate(1.2);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  }
+  .bar {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
     gap: 0.5rem 1.5rem;
-    padding-top: 1.75rem;
-    padding-bottom: 3.5rem;
+    padding-block: 1.1rem;
   }
   .brand {
     color: var(--ink);
     text-decoration: none;
     font-weight: 650;
     letter-spacing: -0.01em;
+  }
+  /* The lure on Huntail's tail, as a brand mark. */
+  .lure {
+    display: inline-block;
+    width: 0.45em;
+    height: 0.45em;
+    margin-right: 0.55em;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0.6em var(--accent);
+    vertical-align: 0.08em;
+    animation: lure 3s ease-in-out infinite;
+  }
+  @keyframes lure {
+    50% {
+      box-shadow: 0 0 1.2em var(--accent);
+      opacity: 0.8;
+    }
   }
   nav {
     display: flex;
@@ -99,11 +148,15 @@ const canonical = new URL(path, Astro.site);
   nav a[aria-current='page'] {
     color: var(--ink);
   }
+  nav a {
+    transition: color 0.2s;
+  }
   nav a[aria-current='page'] {
     text-decoration: underline;
     text-decoration-color: var(--accent);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.35em;
+    text-shadow: 0 0 14px rgb(255 210 122 / 0.35);
   }
   main {
     min-height: 60vh;

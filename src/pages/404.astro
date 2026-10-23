@@ -2,7 +2,53 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Not found">
+<Base title="Not found" lost>
+  <div class="sonar" aria-hidden="true"><span></span><span></span><span></span></div>
   <h1>No page at this address</h1>
   <p class="muted">The link may be old, or the post may have moved. Start from the <a href="/">home page</a>.</p>
 </Base>
+
+<style>
+  /* A sonar ping into empty water. */
+  .sonar {
+    position: relative;
+    width: 7rem;
+    height: 7rem;
+    margin-bottom: 2rem;
+  }
+  .sonar::after {
+    content: '';
+    position: absolute;
+    inset: 50%;
+    width: 8px;
+    height: 8px;
+    margin: -4px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .sonar span {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--cyan);
+    border-radius: 50%;
+    opacity: 0;
+    animation: ping 3.6s ease-out infinite;
+  }
+  .sonar span:nth-child(2) {
+    animation-delay: 1.2s;
+  }
+  .sonar span:nth-child(3) {
+    animation-delay: 2.4s;
+  }
+  @keyframes ping {
+    from {
+      transform: scale(0.1);
+      opacity: 0.9;
+    }
+    to {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+</style>

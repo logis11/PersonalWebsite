@@ -93,13 +93,21 @@ const facts = [
     margin: 0;
     font-weight: 550;
   }
+  .facts > div {
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--rule);
+  }
   .prompt {
-    background: var(--surface);
+    position: relative;
+    background: var(--glass);
     border: 1px solid var(--rule);
     border-left: 3px solid var(--accent);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 1.1rem 1.25rem;
     max-width: 40rem;
+    box-shadow: -14px 0 40px -28px var(--accent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
   .prompt > p:first-child {
     white-space: pre-line;
@@ -126,9 +134,19 @@ const facts = [
   }
   .writeup summary {
     cursor: pointer;
+    width: fit-content;
     font-weight: 600;
     color: var(--accent);
-    padding: 0.4rem 0;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgb(255 210 122 / 0.4);
+    border-radius: 999px;
+    transition:
+      background-color 0.2s,
+      box-shadow 0.2s;
+  }
+  .writeup summary:hover {
+    background: rgb(255 210 122 / 0.08);
+    box-shadow: 0 0 18px -4px var(--glow);
   }
   .writeup[open] summary {
     margin-bottom: 1rem;

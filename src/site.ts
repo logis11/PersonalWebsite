@@ -13,11 +13,12 @@ export const SITE = {
   cvUrl: '', // e.g. '/cv.pdf' after you put the PDF in /public
 };
 
+// `depth` is decorative: how deep (m) the backdrop's gauge reads on that section. The landing page is the descent.
 export const NAV = [
-  { href: '/research/', label: 'Research' },
-  { href: '/projects/', label: 'Projects' },
-  { href: '/ctf/', label: 'CTF' },
-  { href: '/blog/', label: 'Blog' },
-  { href: '/about/', label: 'About' },
-  { href: '/contact/', label: 'Contact' },
+  { href: '/research/', label: 'Research', depth: 1200 },
+  { href: '/projects/', label: 'Projects', depth: 1600 },
+  { href: '/ctf/', label: 'CTF', depth: 2000 },
+  { href: '/blog/', label: 'Blog', depth: 2400 },
+  { href: '/about/', label: 'About', depth: 2800 },
+  { href: '/contact/', label: 'Contact', depth: 3200 },
 ];

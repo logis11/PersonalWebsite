@@ -21,7 +21,7 @@ const { items, empty } = Astro.props;
   ) : (
     <ul class="entries" role="list">
       {items.map((i) => (
-        <li>
+        <li class="glow-row">
           <a href={i.href}>{i.title}</a>
           {i.draft && <span class="draft small">draft</span>}
           <span class="meta small muted">
@@ -47,6 +47,24 @@ const { items, empty } = Astro.props;
   li > a {
     font-weight: 550;
     margin-right: 0.6rem;
+    color: var(--ink);
+    text-decoration-color: var(--accent);
+  }
+  li > a::after {
+    content: '→';
+    display: inline-block;
+    margin-left: 0.35em;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
+  }
+  li:hover > a::after,
+  li > a:focus-visible::after {
+    opacity: 1;
+    transform: none;
   }
   .meta {
     white-space: nowrap;

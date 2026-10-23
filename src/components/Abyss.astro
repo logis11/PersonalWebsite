@@ -1,0 +1,68 @@
+---
+// Animated deep-sea backdrop. Purely decorative: fixed behind the page, ignores pointer hits.
+interface Props {
+  eel?: boolean;
+  meters?: [number, number];
+  lost?: boolean;
+}
+const { eel = false, meters = [0, 1000], lost = false } = Astro.props;
+---
+
+<canvas class="abyss-canvas" aria-hidden="true" data-scene={JSON.stringify({ eel, meters, lost })}></canvas>
+<div class="gauge" aria-hidden="true">
+  <span class="label">depth</span>
+  <span class="value">−0000 m</span>
+</div>
+
+<script>
+  import { startAbyss } from '../scripts/abyss';
+  const canvas = document.querySelector<HTMLCanvasElement>('canvas.abyss-canvas');
+  if (canvas)
+    startAbyss(canvas, {
+      ...JSON.parse(canvas.dataset.scene ?? '{}'),
+      gauge: document.querySelector<HTMLElement>('.gauge .value'),
+      hero: document.querySelector<HTMLElement>('.hero'),
+      column: document.querySelector<HTMLElement>('main'),
+    });
+</script>
+
+<style>
+  .abyss-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    display: block;
+  }
+  .gauge {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right, 0px));
+    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.1rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    pointer-events: none;
+    user-select: none;
+  }
+  .label {
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .value {
+    font-size: 0.95rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 40rem) {
+    .gauge {
+      display: none;
+    }
+  }
+</style>

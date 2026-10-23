@@ -1,14 +1,18 @@
 @import '@fontsource-variable/schibsted-grotesk';
 @import '@fontsource-variable/jetbrains-mono';
 
+/* One palette: the whole site sits in deep water. Accent is the glow of Huntail's lure. */
 :root {
-  --paper: #eceff1;
-  --surface: #f6f8f9;
-  --ink: #17212b;
-  --muted: #5a6672;
-  --rule: #c7ced4;
-  --accent: #1d5bb8;
-  --accent-ink: #ffffff;
+  --paper: #04111d;
+  --surface: #0a2133;
+  --glass: rgb(9 30 47 / 0.62);
+  --ink: #e2f0fa;
+  --muted: #8eafc5;
+  --rule: #1d3a52;
+  --accent: #ffd27a;
+  --accent-ink: #1d1400;
+  --glow: rgb(255 210 122 / 0.35);
+  --cyan: #8fd8ff;
 
   --sans: 'Schibsted Grotesk Variable', system-ui, sans-serif;
   --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
@@ -18,34 +22,12 @@
   --t-body: 1.0625rem;
   --t-h3: 1.25rem;
   --t-h2: 1.5625rem;
-  --t-h1: 2.441rem;
+  --t-h1: clamp(2.2rem, 5.5vw, 3.1rem);
   --t-display: clamp(2.6rem, 8vw, 4.75rem);
 
   --measure: 46rem;
   --gutter: 1rem;
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --paper: #12181f;
-    --surface: #19212a;
-    --ink: #dbe2e8;
-    --muted: #8d99a5;
-    --rule: #2c3743;
-    --accent: #7ba6ee;
-    --accent-ink: #0d1520;
-    color-scheme: dark;
-  }
-}
-:root[data-theme='dark'] {
-  --paper: #12181f;
-  --surface: #19212a;
-  --ink: #dbe2e8;
-  --muted: #8d99a5;
-  --rule: #2c3743;
-  --accent: #7ba6ee;
-  --accent-ink: #0d1520;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   color-scheme: dark;
 }
 
@@ -70,6 +52,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
 .wrap {
   max-width: var(--measure);
   margin: 0 auto;
@@ -80,9 +67,11 @@ a {
   color: var(--accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
+  transition: text-shadow 0.2s;
 }
 a:hover {
   text-decoration-thickness: 2px;
+  text-shadow: 0 0 12px var(--glow);
 }
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -100,8 +89,9 @@ h3 {
 }
 h1 {
   font-size: var(--t-h1);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   margin-top: 0;
+  text-shadow: 0 0 36px rgb(120 190 255 / 0.22);
 }
 h2 {
   font-size: var(--t-h2);
@@ -120,6 +110,50 @@ p {
   font-size: var(--t-small);
 }
 
+/* Subpages surface piece by piece: heading first, then whatever follows. */
+.enter > * {
+  animation: surface 0.9s var(--ease-out) both;
+}
+.enter > :nth-child(2) {
+  animation-delay: 0.08s;
+}
+.enter > :nth-child(3) {
+  animation-delay: 0.16s;
+}
+.enter > :nth-child(4) {
+  animation-delay: 0.24s;
+}
+.enter > :nth-child(n + 5) {
+  animation-delay: 0.32s;
+}
+@keyframes surface {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(6px);
+  }
+}
+
+/* Shared "row lights up under the pointer" treatment for lists and tables. */
+.glow-row {
+  position: relative;
+}
+.glow-row::before {
+  content: '';
+  position: absolute;
+  inset: 0 -0.9rem;
+  z-index: -1;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgb(255 210 122 / 0.07), rgb(143 216 255 / 0.04) 60%, transparent);
+  box-shadow: inset 2px 0 0 var(--accent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.glow-row:hover::before,
+.glow-row:focus-within::before {
+  opacity: 1;
+}
+
 /* Long-form content (blog posts, writeups, project pages) */
 .prose {
   max-width: 40rem;
@@ -127,6 +161,21 @@ p {
 .prose img {
   max-width: 100%;
   height: auto;
+  border-radius: 6px;
+}
+.prose h2 {
+  position: relative;
+}
+.prose h2::before {
+  content: '';
+  position: absolute;
+  left: -1.1rem;
+  top: 0.32em;
+  width: 3px;
+  height: 0.8em;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
 }
 .prose ul,
 .prose ol {
@@ -135,11 +184,25 @@ p {
 .prose li + li {
   margin-top: 0.25em;
 }
+.prose li::marker {
+  color: var(--accent);
+}
 .prose blockquote {
   margin: 1.5em 0;
-  padding-left: 1em;
-  border-left: 3px solid var(--rule);
+  padding: 0.6em 1em;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  background: var(--glass);
   color: var(--muted);
+}
+.prose blockquote > :last-child {
+  margin-bottom: 0;
+}
+.prose hr {
+  border: 0;
+  height: 1px;
+  margin: 2.5em 0;
+  background: linear-gradient(90deg, transparent, var(--rule) 20%, var(--accent) 50%, var(--rule) 80%, transparent);
 }
 .prose table {
   border-collapse: collapse;
@@ -154,6 +217,10 @@ p {
   padding: 0.4em 0.8em 0.4em 0;
   border-bottom: 1px solid var(--rule);
 }
+.prose th {
+  color: var(--muted);
+  font-weight: 500;
+}
 
 code,
 pre {
@@ -161,29 +228,22 @@ pre {
   font-size: 0.86em;
 }
 :not(pre) > code {
-  background: var(--surface);
-  border: 1px solid var(--rule);
+  background: rgb(143 216 255 / 0.08);
+  border: 1px solid rgb(143 216 255 / 0.18);
+  color: var(--cyan);
   padding: 0.05em 0.3em;
   border-radius: 4px;
 }
 pre {
-  background: var(--surface) !important;
+  background: var(--glass) !important;
   border: 1px solid var(--rule);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 1em 1.1em;
   overflow-x: auto;
   line-height: 1.5;
-}
-/* Shiki dual theme */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .astro-code,
-  :root:not([data-theme='light']) .astro-code span {
-    color: var(--shiki-dark) !important;
-  }
-}
-:root[data-theme='dark'] .astro-code,
-:root[data-theme='dark'] .astro-code span {
-  color: var(--shiki-dark) !important;
+  box-shadow: 0 10px 30px -18px rgb(0 0 0 / 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 @media (prefers-reduced-motion: reduce) {

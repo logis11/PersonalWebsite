@@ -67,8 +67,9 @@ src/
   content/{blog,ctf,projects}/
   data/research.json
   pages/               라우트
-  components/          ResearchList, EntryList
-  layouts/Base.astro   헤더/푸터/메타
-  styles/global.css    색·타입 토큰, 다크모드
+  components/          ResearchList, EntryList, Abyss (랜딩 심해 배경 캔버스)
+  scripts/abyss.ts     심해 배경 + Huntail 장어 애니메이션 엔진 (의존성 없음)
+  layouts/Base.astro   헤더/푸터/메타 + 배경. 섹션별 수심은 site.ts NAV의 depth
+  styles/global.css    색·타입 토큰 (심해 팔레트 단일, 라이트 모드 없음)
 public/                그대로 복사되는 정적 파일
 ```

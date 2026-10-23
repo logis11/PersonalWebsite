@@ -8,7 +8,7 @@ import { SITE } from '../site';
   <dl class="contact">
     {
       SITE.email && (
-        <div>
+        <div class="glow-row">
           <dt class="muted small">Email</dt>
           <dd>
             <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
@@ -18,7 +18,7 @@ import { SITE } from '../site';
     }
     {
       SITE.github && (
-        <div>
+        <div class="glow-row">
           <dt class="muted small">GitHub</dt>
           <dd>
             <a href={SITE.github}>{SITE.github.replace('https://', '')}</a>
@@ -28,7 +28,7 @@ import { SITE } from '../site';
     }
     {
       SITE.velog && (
-        <div>
+        <div class="glow-row">
           <dt class="muted small">Velog (Korean)</dt>
           <dd>
             <a href={SITE.velog}>{SITE.velog.replace('https://', '')}</a>
@@ -38,7 +38,7 @@ import { SITE } from '../site';
     }
     {
       (SITE.pgpKeyUrl || SITE.pgpFingerprint) && (
-        <div>
+        <div class="glow-row">
           <dt class="muted small">PGP</dt>
           <dd>
             {SITE.pgpKeyUrl && <a href={SITE.pgpKeyUrl}>Public key</a>}
@@ -59,6 +59,7 @@ import { SITE } from '../site';
     border-top: 2px solid var(--ink);
   }
   .contact div {
+    position: relative;
     display: grid;
     grid-template-columns: 9rem 1fr;
     gap: 0.5rem 1rem;

@@ -35,11 +35,36 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
     margin-bottom: 2rem;
   }
   .projects {
-    border-top: 2px solid var(--ink);
+    display: grid;
+    gap: 1rem;
   }
   article {
-    padding: 1.4rem 0 1.2rem;
-    border-bottom: 1px solid var(--rule);
+    position: relative;
+    padding: 1.3rem 1.4rem 1.2rem;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--glass);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition:
+      border-color 0.25s,
+      box-shadow 0.25s,
+      transform 0.25s;
+  }
+  article:hover,
+  article:focus-within {
+    border-color: rgb(255 210 122 / 0.45);
+    box-shadow:
+      0 0 0 1px rgb(255 210 122 / 0.12),
+      0 18px 40px -24px var(--glow);
+    transform: translateY(-2px);
+  }
+  /* Whole card is the link target. */
+  h2 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
   }
   h2 {
     font-size: var(--t-h3);
