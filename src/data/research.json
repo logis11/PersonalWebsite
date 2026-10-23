@@ -1,0 +1,30 @@
+[
+  {
+    "id": "cve-2026-2005",
+    "title": "PostgreSQL pgcrypto heap overflow",
+    "cve": "CVE-2026-2005",
+    "target": "PostgreSQL / pgcrypto",
+    "kind": "1-day reproduction",
+    "year": 2026,
+    "summary": "Integer overflow in PGP session-key parsing leading to a heap overflow; built a working exploit from the advisory."
+  },
+  {
+    "id": "cve-2023-42115",
+    "title": "Exim SMTP AUTH out-of-bounds write",
+    "cve": "CVE-2023-42115",
+    "target": "Exim",
+    "kind": "1-day reproduction",
+    "year": 2026,
+    "summary": "Unauthenticated out-of-bounds write in the SMTP AUTH handler; reproduced the bug and the path to code execution."
+  },
+  {
+    "id": "cve-2025-55423",
+    "title": "ipTIME UPnP OS command injection",
+    "cve": "CVE-2025-55423",
+    "target": "ipTIME routers",
+    "kind": "1-day reproduction",
+    "year": 2026,
+    "summary": "Command injection in the UPnP service; root-cause analysis and reproduction on real firmware.",
+    "link": "https://github.com/logis11/CVE-2025-55423-analysis-and-reproduction"
+  }
+]

@@ -1,0 +1,180 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { published, byDateDesc, fmtMonth } from '../../lib/util';
+
+const challenges = (await getCollection('ctf', published)).sort(byDateDesc);
+const categories = [...new Set(challenges.map((c) => c.data.category))].sort();
+---
+
+<Base title="CTF" description="CTF challenges I designed, with handouts and writeups.">
+  <h1>CTF challenges</h1>
+  <p class="muted intro">
+    Challenges I designed. Each page has the original prompt and files; most writeups are folded so you can try first.
+  </p>
+
+  {
+    categories.length > 1 && (
+      <div class="filter" role="group" aria-label="Filter by category">
+        <button type="button" data-cat="all" aria-pressed="true">All</button>
+        {categories.map((c) => (
+          <button type="button" data-cat={c} aria-pressed="false">
+            {c}
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    challenges.length === 0 ? (
+      <p class="muted">Nothing published yet.</p>
+    ) : (
+      <table class="chals">
+        <thead>
+          <tr>
+            <th scope="col">Challenge</th>
+            <th scope="col">Category</th>
+            <th scope="col">Difficulty</th>
+            <th scope="col" class="num">Solves</th>
+          </tr>
+        </thead>
+        <tbody>
+          {challenges.map((c) => (
+            <tr data-cat={c.data.category}>
+              <td>
+                <a href={`/ctf/${c.id}/`}>{c.data.title}</a>
+                {c.data.draft && <span class="draft small">draft</span>}
+                <div class="small muted">
+                  {c.data.event ? `${c.data.event}, ` : ''}
+                  {fmtMonth(c.data.date)}
+                </div>
+              </td>
+              <td>{c.data.category}</td>
+              <td>
+                <span class={`diff d-${c.data.difficulty}`}>{c.data.difficulty}</span>
+              </td>
+              <td class="num">{c.data.solves ?? '–'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
+  }
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter button');
+  const rows = document.querySelectorAll<HTMLTableRowElement>('.chals tbody tr');
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const cat = b.dataset.cat;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      rows.forEach((r) => (r.hidden = cat !== 'all' && r.dataset.cat !== cat));
+    }),
+  );
+</script>
+
+<style>
+  .intro {
+    max-width: 36rem;
+    margin-bottom: 2rem;
+  }
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+  .filter button {
+    font: inherit;
+    font-size: var(--t-small);
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    cursor: pointer;
+  }
+  .filter button[aria-pressed='true'] {
+    color: var(--accent-ink);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .chals {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid var(--ink);
+  }
+  th {
+    text-align: left;
+    font-size: var(--t-small);
+    font-weight: 500;
+    color: var(--muted);
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  td {
+    padding: 0.75rem 0.75rem 0.75rem 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  td a {
+    font-weight: 550;
+  }
+  .num {
+    text-align: right;
+    padding-right: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .diff {
+    font-size: var(--t-small);
+  }
+  .d-hard,
+  .d-insane {
+    font-weight: 650;
+  }
+  .draft {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 0 0.3em;
+    margin-left: 0.5rem;
+  }
+  @media (max-width: 40rem) {
+    thead {
+      display: none;
+    }
+    tr {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      border-bottom: 1px solid var(--rule);
+      padding: 0.75rem 0;
+    }
+    td {
+      border: 0;
+      padding: 0;
+    }
+    td:first-child {
+      grid-column: 1 / -1;
+      margin-bottom: 0.3rem;
+    }
+    td:nth-child(2)::after {
+      content: ',\00a0';
+    }
+    td:nth-child(2),
+    td:nth-child(3) {
+      display: inline;
+      font-size: var(--t-small);
+      color: var(--muted);
+    }
+    tr {
+      grid-template-columns: auto auto 1fr;
+    }
+    .num::before {
+      content: 'solves ';
+      color: var(--muted);
+      font-size: var(--t-small);
+    }
+  }
+</style>

@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ResearchList from '../components/ResearchList.astro';
+import EntryList from '../components/EntryList.astro';
+import { SITE } from '../site';
+import { published, byDateDesc, fmtMonth } from '../lib/util';
+
+const research = (await getCollection('research', published)).sort((a, b) => b.data.year - a.data.year);
+const ctf = (await getCollection('ctf', published)).sort(byDateDesc).slice(0, 4);
+const posts = (await getCollection('blog', published)).sort(byDateDesc).slice(0, 4);
+---
+
+<Base>
+  <section class="hero">
+    <h1>{SITE.name}</h1>
+    <p class="lede">
+      I study how software breaks at the memory level: heap corruption in network daemons, Windows kernel drivers,
+      and the firmware inside routers and door locks. Computer Engineering at the University of Michigan.
+    </p>
+  </section>
+
+  <section>
+    <div class="head">
+      <h2>Research</h2>
+      <a class="small" href="/research/">All research</a>
+    </div>
+    <ResearchList items={research} />
+  </section>
+
+  <div class="split">
+    <section>
+      <div class="head">
+        <h2>Challenges I wrote</h2>
+        <a class="small" href="/ctf/">All</a>
+      </div>
+      <EntryList
+        empty="Nothing published yet."
+        items={ctf.map((c) => ({
+          href: `/ctf/${c.id}/`,
+          title: c.data.title,
+          meta: `${c.data.category}, ${c.data.difficulty}`,
+          draft: c.data.draft,
+        }))}
+      />
+    </section>
+    <section>
+      <div class="head">
+        <h2>Writing</h2>
+        <a class="small" href="/blog/">All</a>
+      </div>
+      <EntryList
+        empty="Nothing published yet."
+        items={posts.map((p) => ({
+          href: `/blog/${p.id}/`,
+          title: p.data.title,
+          date: fmtMonth(p.data.date),
+          draft: p.data.draft,
+        }))}
+      />
+    </section>
+  </div>
+</Base>
+
+<style>
+  .hero {
+    margin-bottom: 4.5rem;
+  }
+  .hero h1 {
+    font-size: var(--t-display);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+    margin: 0 0 1.4rem;
+  }
+  .lede {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    max-width: 34rem;
+    margin: 0;
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .head h2 {
+    margin: 0 0 0.8rem;
+    font-size: var(--t-h3);
+  }
+  section + section,
+  .split {
+    margin-top: 3.5rem;
+  }
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+  .split section + section {
+    margin-top: 0;
+  }
+  @media (max-width: 40rem) {
+    .split {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+// Plain dated list used for blog posts and CTF challenges.
+interface Item {
+  href: string;
+  title: string;
+  date?: string;
+  meta?: string;
+  summary?: string;
+  draft?: boolean;
+}
+interface Props {
+  items: Item[];
+  empty: string;
+}
+const { items, empty } = Astro.props;
+---
+
+{
+  items.length === 0 ? (
+    <p class="muted">{empty}</p>
+  ) : (
+    <ul class="entries" role="list">
+      {items.map((i) => (
+        <li>
+          <a href={i.href}>{i.title}</a>
+          {i.draft && <span class="draft small">draft</span>}
+          <span class="meta small muted">
+            {[i.meta, i.date].filter(Boolean).join(', ')}
+          </span>
+          {i.summary && <p class="small muted">{i.summary}</p>}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  li > a {
+    font-weight: 550;
+    margin-right: 0.6rem;
+  }
+  .meta {
+    white-space: nowrap;
+  }
+  p {
+    margin: 0.2rem 0 0;
+  }
+  .draft {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 0 0.3em;
+    margin-right: 0.5rem;
+  }
+</style>

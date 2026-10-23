@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+---
+
+<Base title="Contact">
+  <h1>Contact</h1>
+  <dl class="contact">
+    {
+      SITE.email && (
+        <div>
+          <dt class="muted small">Email</dt>
+          <dd>
+            <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </dd>
+        </div>
+      )
+    }
+    {
+      SITE.github && (
+        <div>
+          <dt class="muted small">GitHub</dt>
+          <dd>
+            <a href={SITE.github}>{SITE.github.replace('https://', '')}</a>
+          </dd>
+        </div>
+      )
+    }
+    {
+      SITE.velog && (
+        <div>
+          <dt class="muted small">Velog (Korean)</dt>
+          <dd>
+            <a href={SITE.velog}>{SITE.velog.replace('https://', '')}</a>
+          </dd>
+        </div>
+      )
+    }
+    {
+      (SITE.pgpKeyUrl || SITE.pgpFingerprint) && (
+        <div>
+          <dt class="muted small">PGP</dt>
+          <dd>
+            {SITE.pgpKeyUrl && <a href={SITE.pgpKeyUrl}>Public key</a>}
+            {SITE.pgpFingerprint && <code class="fp">{SITE.pgpFingerprint}</code>}
+          </dd>
+        </div>
+      )
+    }
+  </dl>
+  <p class="muted small note">
+    Reporting a security issue in something I maintain? See <a href="/.well-known/security.txt">security.txt</a>.
+  </p>
+</Base>
+
+<style>
+  .contact {
+    margin: 0 0 2.5rem;
+    border-top: 2px solid var(--ink);
+  }
+  .contact div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 0.5rem 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  .fp {
+    display: block;
+    margin-top: 0.3rem;
+  }
+  @media (max-width: 30rem) {
+    .contact div {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
+    }
+  }
+</style>

@@ -1,0 +1,82 @@
+---
+import type { Research } from '../lib/util';
+
+interface Props {
+  items: Research[];
+}
+const { items } = Astro.props;
+---
+
+<ol class="research" role="list">
+  {
+    items.map(({ data }) => (
+      <li>
+        <div class="id">
+          <span class="cve">{data.cve ?? data.target}</span>
+          <span class="year muted">{data.year}</span>
+        </div>
+        <div class="body">
+          <h3>{data.link ? <a href={data.link}>{data.title}</a> : data.title}</h3>
+          <p>{data.summary}</p>
+        </div>
+        <div class="kind small muted">{data.kind}</div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .research {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 2px solid var(--ink);
+  }
+  li {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr 8rem;
+    gap: 0.25rem 1.25rem;
+    padding: 1.1rem 0 1.15rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .id {
+    display: flex;
+    flex-direction: column;
+    font-variant-numeric: tabular-nums;
+  }
+  .cve {
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  h3 {
+    margin: 0 0 0.2rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  h3 a {
+    color: var(--ink);
+    text-decoration-color: var(--accent);
+  }
+  .body p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .kind {
+    text-align: right;
+    padding-top: 0.15rem;
+  }
+  @media (max-width: 40rem) {
+    li {
+      grid-template-columns: 1fr;
+    }
+    .id {
+      flex-direction: row;
+      gap: 0.6rem;
+    }
+    .kind {
+      text-align: left;
+      padding-top: 0;
+    }
+  }
+</style>

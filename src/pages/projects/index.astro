@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { published } from '../../lib/util';
+
+const projects = (await getCollection('projects', published)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Projects" description="Tools and systems I have built.">
+  <h1>Projects</h1>
+  <p class="muted intro">Tools and systems I have built, mostly for finding or understanding bugs.</p>
+
+  {projects.length === 0 && <p class="muted">Nothing published yet.</p>}
+
+  <div class="projects">
+    {
+      projects.map((p) => (
+        <article>
+          <h2>
+            <a href={`/projects/${p.id}/`}>{p.data.title}</a>
+            {p.data.draft && <span class="draft small">draft</span>}
+          </h2>
+          <p class="small muted period">{p.data.period}</p>
+          <p>{p.data.summary}</p>
+          {p.data.stack.length > 0 && <p class="small muted">{p.data.stack.join(', ')}</p>}
+        </article>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .intro {
+    max-width: 36rem;
+    margin-bottom: 2rem;
+  }
+  .projects {
+    border-top: 2px solid var(--ink);
+  }
+  article {
+    padding: 1.4rem 0 1.2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  h2 {
+    font-size: var(--t-h3);
+    margin: 0;
+  }
+  h2 a {
+    color: var(--ink);
+    text-decoration-color: var(--accent);
+  }
+  .period {
+    margin: 0.15rem 0 0.6rem;
+  }
+  article p:last-child {
+    margin-bottom: 0;
+  }
+  .draft {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 0 0.3em;
+    margin-left: 0.5rem;
+    font-weight: 400;
+    vertical-align: middle;
+  }
+</style>

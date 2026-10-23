@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+// TODO: this is a first draft. Rewrite the first paragraph in your own words.
+---
+
+<Base title="About">
+  <h1>About</h1>
+  <div class="prose">
+    <p>
+      I'm Kyungmin Inn, a Computer Engineering student at the University of Michigan. I work on vulnerability research
+      and exploitation: memory corruption in userland services, Windows kernel drivers, and embedded and IoT
+      firmware.
+    </p>
+    <p>
+      I tend to treat security as computer architecture taken one level further. Reading allocator internals or a
+      speculative-execution paper is interesting to me for the same reason: it is the machine's own rules, used in a
+      way nobody planned for.
+    </p>
+
+    <h2>Now</h2>
+    <p>
+      On leave from Michigan for independent research after military service in the Republic of Korea Army. Returning
+      to Ann Arbor in January 2027.
+    </p>
+
+    <h2>Education</h2>
+    <p>
+      B.S.E. Computer Engineering, University of Michigan, expected 2029.<br />
+      <span class="muted">James B. Angell Scholar.</span>
+    </p>
+
+    {
+      SITE.cvUrl && (
+        <p>
+          <a href={SITE.cvUrl}>Download CV (PDF)</a>
+        </p>
+      )
+    }
+  </div>
+</Base>

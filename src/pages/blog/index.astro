@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import EntryList from '../../components/EntryList.astro';
+import { SITE } from '../../site';
+import { published, byDateDesc, fmtDate } from '../../lib/util';
+
+const posts = (await getCollection('blog', published)).sort(byDateDesc);
+---
+
+<Base title="Blog" description="Writeups and notes on exploitation and systems.">
+  <h1>Blog</h1>
+  <p class="muted intro">
+    Selected writeups in English.
+    {SITE.velog && <>My day-to-day study notes, in Korean, are on <a href={SITE.velog}>Velog</a>.</>}
+  </p>
+  <EntryList
+    empty="Nothing published yet."
+    items={posts.map((p) => ({
+      href: `/blog/${p.id}/`,
+      title: p.data.title,
+      date: fmtDate(p.data.date),
+      meta: p.data.tags.join(', '),
+      summary: p.data.summary,
+      draft: p.data.draft,
+    }))}
+  />
+</Base>
+
+<style>
+  .intro {
+    max-width: 36rem;
+    margin-bottom: 2rem;
+  }
+</style>

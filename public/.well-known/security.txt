@@ -1,0 +1,7 @@
+# TODO: fill in Contact (and Encryption once your PGP key is in /public), and the real domain in Canonical.
+# Expires is required by RFC 9116; renew it before it passes.
+Contact: mailto:you@example.com
+Expires: 2027-10-22T00:00:00.000Z
+Preferred-Languages: en, ko
+Canonical: https://example.com/.well-known/security.txt
+# Encryption: https://example.com/pgp.asc

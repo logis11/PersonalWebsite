@@ -1,0 +1,136 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { published, fmtDate } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const all = await getCollection('ctf', published);
+  return all.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const facts = [
+  ['Category', d.category],
+  ['Difficulty', d.difficulty],
+  ['Event', d.event],
+  ['Released', fmtDate(d.date)],
+  ['Solves', d.solves?.toString()],
+].filter(([, v]) => v) as [string, string][];
+---
+
+<Base title={d.title} description={d.prompt}>
+  <p class="small back"><a href="/ctf/">CTF challenges</a></p>
+  <h1>{d.title}</h1>
+
+  <dl class="facts">
+    {
+      facts.map(([k, v]) => (
+        <div>
+          <dt class="small muted">{k}</dt>
+          <dd>{v}</dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <section class="prompt" aria-label="Challenge prompt">
+    <p>{d.prompt}</p>
+    {
+      d.remote && (
+        <p class="remote">
+          <code>{d.remote}</code>
+          <span class="small muted">If the server is down, run the handout locally with Docker.</span>
+        </p>
+      )
+    }
+    {
+      d.handouts.length > 0 && (
+        <ul class="handouts" role="list">
+          {d.handouts.map((h) => (
+            <li>
+              <a href={h.href} download>
+                {h.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    {d.source && <p class="small source"><a href={d.source}>Source and Dockerfile</a></p>}
+  </section>
+
+  {
+    d.writeup === 'open' && (
+      <section class="prose">
+        <h2>Writeup</h2>
+        <Content />
+      </section>
+    )
+  }
+  {
+    d.writeup === 'folded' && (
+      <details class="prose writeup">
+        <summary>Show writeup</summary>
+        <Content />
+      </details>
+    )
+  }
+</Base>
+
+<style>
+  .back {
+    margin-bottom: 0.75rem;
+  }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    margin: 0 0 2rem;
+  }
+  .facts dd {
+    margin: 0;
+    font-weight: 550;
+  }
+  .prompt {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 1.1rem 1.25rem;
+    max-width: 40rem;
+  }
+  .prompt > p:first-child {
+    white-space: pre-line;
+  }
+  .remote {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem 0.9rem;
+  }
+  .handouts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+  }
+  .source {
+    margin: 0.75rem 0 0;
+  }
+  .writeup {
+    margin-top: 2.5rem;
+  }
+  .writeup summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent);
+    padding: 0.4rem 0;
+  }
+  .writeup[open] summary {
+    margin-bottom: 1rem;
+  }
+</style>

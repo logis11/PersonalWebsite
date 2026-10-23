@@ -1,0 +1,128 @@
+---
+import '../styles/global.css';
+import { SITE, NAV } from '../site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = SITE.description } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE.name}` : SITE.title;
+const path = Astro.url.pathname;
+const canonical = new URL(path, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} blog`} href="/rss.xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#eceff1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12181f" media="(prefers-color-scheme: dark)" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/" aria-current={path === '/' ? 'page' : undefined}>{SITE.name}</a>
+      <nav aria-label="Main">
+        {
+          NAV.map((item) => (
+            <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer wrap small muted">
+      <span>© {new Date().getFullYear()} {SITE.name}</span>
+      <span class="links">
+        {SITE.github && <a href={SITE.github}>GitHub</a>}
+        {SITE.velog && <a href={SITE.velog}>Velog</a>}
+        <a href="/rss.xml">RSS</a>
+        <a href="/contact/">Contact</a>
+      </span>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: -9999px;
+  }
+  .skip:focus {
+    left: var(--gutter);
+    top: 0.5rem;
+    background: var(--accent);
+    color: var(--accent-ink);
+    padding: 0.4rem 0.7rem;
+    z-index: 10;
+  }
+  .site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-top: 1.75rem;
+    padding-bottom: 3.5rem;
+  }
+  .brand {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.1rem;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--ink);
+  }
+  nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.35em;
+  }
+  main {
+    min-height: 60vh;
+  }
+  .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-top: 6rem;
+    padding-top: 1.25rem;
+    padding-bottom: 2.5rem;
+    background: linear-gradient(var(--rule), var(--rule)) no-repeat top / calc(100% - 2 * var(--gutter)) 1px;
+  }
+  .site-footer .links {
+    display: flex;
+    gap: 1rem;
+  }
+  .site-footer a {
+    color: var(--muted);
+  }
+</style>
