@@ -14,3 +14,8 @@ export const byDateDesc = (a: { data: { date: Date } }, b: { data: { date: Date 
   b.data.date.valueOf() - a.data.date.valueOf();
 
 export type Research = CollectionEntry<'research'>;
+
+// Newest year first; within a year, original disclosures before analyses and 1-day reproductions.
+const KIND_RANK = { Disclosure: 0, Analysis: 1, '1-day reproduction': 2 } as const;
+export const byResearch = (a: Research, b: Research) =>
+  b.data.year - a.data.year || KIND_RANK[a.data.kind] - KIND_RANK[b.data.kind];

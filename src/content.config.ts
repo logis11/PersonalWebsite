@@ -44,6 +44,7 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
+    tagline: z.string().optional(), // one line under the title, e.g. 'Binary graph analysis MCP'
     summary: z.string(),
     period: z.string(), // free text, e.g. '2026 — present'
     order: z.number().default(100), // lower shows first

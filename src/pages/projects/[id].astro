@@ -16,6 +16,7 @@ const d = entry.data;
 <Base title={d.title} description={d.summary}>
   <p class="small back"><a href="/projects/">Projects</a></p>
   <h1>{d.title}</h1>
+  {d.tagline && <p class="tagline">{d.tagline}</p>}
   <p class="small muted meta">
     {d.period}{d.stack.length > 0 && `. ${d.stack.join(', ')}`}
   </p>
@@ -35,6 +36,14 @@ const d = entry.data;
 <style>
   .back {
     margin-bottom: 0.75rem;
+  }
+  h1 {
+    margin-bottom: 0.4rem;
+  }
+  .tagline {
+    margin-bottom: 0.4rem;
+    font-size: 1.15rem;
+    color: var(--accent);
   }
   .meta {
     margin-bottom: 1rem;

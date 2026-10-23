@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ResearchList from '../components/ResearchList.astro';
-import { published } from '../lib/util';
+import { published, byResearch } from '../lib/util';
 
-const items = (await getCollection('research', published)).sort((a, b) => b.data.year - a.data.year);
+const items = (await getCollection('research', published)).sort(byResearch);
 ---
 
 <Base title="Research" description="Vulnerability disclosures and exploit reproductions.">

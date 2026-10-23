@@ -20,6 +20,7 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
             <a href={`/projects/${p.id}/`}>{p.data.title}</a>
             {p.data.draft && <span class="draft small">draft</span>}
           </h2>
+          {p.data.tagline && <p class="tagline">{p.data.tagline}</p>}
           <p class="small muted period">{p.data.period}</p>
           <p>{p.data.summary}</p>
           {p.data.stack.length > 0 && <p class="small muted">{p.data.stack.join(', ')}</p>}
@@ -73,6 +74,11 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
   h2 a {
     color: var(--ink);
     text-decoration-color: var(--accent);
+  }
+  .tagline {
+    margin: 0.2rem 0 0;
+    color: var(--accent);
+    font-size: 0.95rem;
   }
   .period {
     margin: 0.15rem 0 0.6rem;

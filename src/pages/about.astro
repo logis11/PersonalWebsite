@@ -24,11 +24,42 @@ import { SITE } from '../site';
       to Ann Arbor in January 2027.
     </p>
 
+    <h2>Timeline</h2>
+    <table class="timeline">
+      <thead>
+        <tr>
+          <th scope="col">Period</th>
+          <th scope="col">Where</th>
+          <th scope="col">Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Oct 2024 – Apr 2026</td>
+          <td>Republic of Korea Army</td>
+          <td>Satellite Communications Operator, Sergeant (honorable discharge)</td>
+        </tr>
+        <tr>
+          <td>2023 – 2024</td>
+          <td>University of Michigan</td>
+          <td>B.S.E. Computer Engineering</td>
+        </tr>
+        <tr>
+          <td>2018 – 2023</td>
+          <td>Semiahmoo Secondary School, Surrey, BC</td>
+          <td>High school</td>
+        </tr>
+      </tbody>
+    </table>
+
     <h2>Education</h2>
     <p>
       B.S.E. Computer Engineering, University of Michigan, expected 2029.<br />
       <span class="muted">James B. Angell Scholar.</span>
     </p>
+
+    <h2>Competitive programming</h2>
+    <p>Baekjoon: solved.ac Platinum (top ~6%)</p>
 
     {
       SITE.cvUrl && (
@@ -39,3 +70,11 @@ import { SITE } from '../site';
     }
   </div>
 </Base>
+
+<style>
+  .timeline td:first-child {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+</style>

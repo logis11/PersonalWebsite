@@ -4,9 +4,10 @@ import Base from '../layouts/Base.astro';
 import ResearchList from '../components/ResearchList.astro';
 import EntryList from '../components/EntryList.astro';
 import { SITE } from '../site';
-import { published, byDateDesc, fmtMonth } from '../lib/util';
+import { published, byDateDesc, byResearch, fmtMonth } from '../lib/util';
 
-const research = (await getCollection('research', published)).sort((a, b) => b.data.year - a.data.year);
+const projects = (await getCollection('projects', published)).sort((a, b) => a.data.order - b.data.order).slice(0, 4);
+const research = (await getCollection('research', published)).sort(byResearch);
 const ctf = (await getCollection('ctf', published)).sort(byDateDesc).slice(0, 4);
 const posts = (await getCollection('blog', published)).sort(byDateDesc).slice(0, 4);
 // Split the name into per-letter spans for the entrance animation; the h1 keeps the plain text as its label.
@@ -29,6 +30,22 @@ const letters = [...SITE.name];
       and the firmware inside routers and door locks. Computer Engineering at the University of Michigan.
     </p>
     <div class="dive" aria-hidden="true"><span></span></div>
+  </section>
+
+  <section class="reveal">
+    <div class="head">
+      <h2>Projects</h2>
+      <a class="small" href="/projects/">All projects</a>
+    </div>
+    <EntryList
+      empty="Nothing published yet."
+      items={projects.map((p) => ({
+        href: `/projects/${p.id}/`,
+        title: p.data.title,
+        meta: p.data.tagline,
+        draft: p.data.draft,
+      }))}
+    />
   </section>
 
   <section class="reveal">

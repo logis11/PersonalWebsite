@@ -1,12 +1,20 @@
 [
   {
+    "id": "iot-ipcam-preauth-rce",
+    "title": "IoT IP camera pre-auth RCE",
+    "target": "Consumer IP camera",
+    "kind": "Disclosure",
+    "year": 2026,
+    "summary": "Pre-authentication remote code execution on a consumer IP camera, achieving a root shell on the device. Reported to KISA; details withheld until the disclosure period ends."
+  },
+  {
     "id": "cve-2026-2005",
     "title": "PostgreSQL pgcrypto heap overflow",
     "cve": "CVE-2026-2005",
     "target": "PostgreSQL / pgcrypto",
     "kind": "1-day reproduction",
     "year": 2026,
-    "summary": "Integer overflow in PGP session-key parsing leading to a heap overflow; built a working exploit from the advisory."
+    "summary": "Integer overflow in PGP session-key parsing leading to a heap overflow; built a working exploit from the advisory. Write-up coming soon."
   },
   {
     "id": "cve-2023-42115",
@@ -15,7 +23,7 @@
     "target": "Exim",
     "kind": "1-day reproduction",
     "year": 2026,
-    "summary": "Unauthenticated out-of-bounds write in the SMTP AUTH handler; reproduced the bug and the path to code execution."
+    "summary": "Unauthenticated out-of-bounds write in the SMTP AUTH handler; reproduced the bug and the path to code execution. Write-up coming soon."
   },
   {
     "id": "cve-2025-55423",
