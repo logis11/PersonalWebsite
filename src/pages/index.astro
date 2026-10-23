@@ -43,6 +43,7 @@ const letters = [...SITE.name];
         href: `/projects/${p.id}/`,
         title: p.data.title,
         meta: p.data.tagline,
+        summary: p.data.highlights.map((h) => `${h.value} ${h.label}`).join(' · ') || undefined,
         draft: p.data.draft,
       }))}
     />

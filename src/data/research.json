@@ -1,11 +1,12 @@
 [
   {
     "id": "iot-ipcam-preauth-rce",
-    "title": "IoT IP camera pre-auth RCE",
+    "title": "IP camera 0-day: pre-auth RCE to root",
     "target": "Consumer IP camera",
     "kind": "Disclosure",
     "year": 2026,
-    "summary": "Pre-authentication remote code execution on a consumer IP camera, achieving a root shell on the device. Reported to KISA; details withheld until the disclosure period ends."
+    "summary": "Previously unknown bug that lets an unauthenticated attacker on the network take a root shell on a consumer IP camera. Reported to KISA; vendor and details withheld until coordinated disclosure ends.",
+    "link": "/projects/ip-camera-0day/"
   },
   {
     "id": "cve-2026-2005",

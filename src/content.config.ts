@@ -52,8 +52,15 @@ const projects = defineCollection({
     period: z.string(), // free text, e.g. '2026 — present'
     order: z.number().default(100), // lower shows first
     stack: z.array(z.string()).default([]),
+    // Headline numbers shown as chips, e.g. { value: '3', label: 'MSRC solo reports' }.
+    highlights: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
+    // Photo or screenshot, e.g. '/projects/stm32-door-lock/cover.jpg' (4:3). Without one, a placeholder frame is drawn.
+    cover: z.string().optional(),
+    coverAlt: z.string().default(''),
     repo: z.string().url().optional(),
     link: z.string().url().optional(),
+    // Extra outbound links, e.g. an upstream bug report.
+    links: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
     draft: z.boolean().default(false),
   }),
 });

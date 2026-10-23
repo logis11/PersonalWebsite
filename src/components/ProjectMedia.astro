@@ -1,0 +1,71 @@
+---
+// 4:3 photo frame for a project. With no `src`, draws a sonar placeholder so the slot reads as intentional.
+interface Props {
+  src?: string;
+  alt?: string;
+  title: string;
+  eager?: boolean;
+}
+const { src, alt = '', title, eager = false } = Astro.props;
+const mono = title
+  .split(/[\s-]+/)
+  .map((w) => w[0])
+  .join('')
+  .slice(0, 3);
+---
+
+<figure class="media">
+  {
+    src ? (
+      <img src={src} alt={alt} width="1200" height="900" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    ) : (
+      <div class="ph" aria-hidden="true">
+        <span class="mono">{mono}</span>
+        {import.meta.env.DEV && <span class="hint">cover: /projects/…/cover.jpg</span>}
+      </div>
+    )
+  }
+</figure>
+
+<style>
+  .media {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ph {
+    position: relative;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at 50% 55%, rgb(255 210 122 / 0.14), transparent 22%),
+      repeating-radial-gradient(circle at 50% 55%, transparent 0 22px, rgb(143 216 255 / 0.07) 22px 23px),
+      linear-gradient(180deg, #0b2438, #061624);
+  }
+  .mono {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgb(226 240 250 / 0.28);
+  }
+  .hint {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    opacity: 0.7;
+  }
+</style>
