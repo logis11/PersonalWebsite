@@ -3,5 +3,5 @@
 Contact: mailto:you@example.com
 Expires: 2027-10-22T00:00:00.000Z
 Preferred-Languages: en, ko
-Canonical: https://example.com/.well-known/security.txt
-# Encryption: https://example.com/pgp.asc
+Canonical: https://kinn8.com/.well-known/security.txt
+# Encryption: https://kinn8.com/pgp.asc
