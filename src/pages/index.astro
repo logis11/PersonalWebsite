@@ -3,19 +3,50 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ResearchList from '../components/ResearchList.astro';
 import EntryList from '../components/EntryList.astro';
-import { SITE } from '../site';
+import RecentWork, { type Card } from '../components/RecentWork.astro';
+import { SITE, RECENT } from '../site';
 import { published, byDateDesc, byResearch, fmtMonth } from '../lib/util';
 
-const allProjects = (await getCollection('projects', published)).sort((a, b) => a.data.order - b.data.order);
-const projects = allProjects.slice(0, 4);
+const projects = await getCollection('projects', published);
 const research = (await getCollection('research', published)).sort(byResearch);
 const ctf = (await getCollection('ctf', published)).sort(byDateDesc).slice(0, 4);
-const posts = (await getCollection('blog', published)).sort(byDateDesc).slice(0, 4);
-// Proof strip: each project's `proof` tiles, then the public CVEs reproduced.
-const proof = allProjects.flatMap((p) =>
-  p.data.proof.map((t) => ({ ...t, href: t.href ?? `/projects/${p.id}/` })),
-);
-const cves = research.filter((r) => r.data.cve);
+const allPosts = (await getCollection('blog', published)).sort(byDateDesc);
+const posts = allPosts.slice(0, 4);
+// Resolve the slider's list against what is published; anything missing drops out.
+const cards = RECENT.flatMap((r): Card[] => {
+  if ('post' in r) {
+    const p = allPosts.find((x) => x.id === r.post);
+    if (!p) return [];
+    const d = p.data;
+    return [
+      {
+        href: `/blog/${p.id}/`,
+        kind: 'Writing',
+        title: d.title,
+        line: d.summary,
+        meta: fmtMonth(d.date),
+        cover: d.cover,
+        coverAlt: d.coverAlt,
+      },
+    ];
+  }
+  const p = projects.find((x) => x.id === r.project);
+  if (!p) return [];
+  const d = p.data;
+  const mate = r.with ? projects.find((x) => x.id === r.with) : undefined;
+  return [
+    {
+      href: `/projects/${p.id}/`,
+      kind: 'Project',
+      title: mate ? `${d.title} + ${mate.data.title}` : d.title,
+      line: d.tagline ?? d.summary,
+      meta: d.period,
+      cover: d.cover,
+      coverAlt: d.coverAlt,
+      coverFit: d.coverFit,
+    },
+  ];
+});
 // Split the name into per-letter spans for the entrance animation; the h1 keeps the plain text as its label.
 const letters = [...SITE.name];
 ---
@@ -35,51 +66,12 @@ const letters = [...SITE.name];
       I study how software breaks at the memory level: heap corruption in network daemons, Windows kernel drivers,
       and the firmware inside routers and door locks. Computer Engineering at the University of Michigan.
     </p>
-    {
-      proof.length > 0 && (
-        <ul class="proof" role="list">
-          {proof.map((t) => (
-            <li>
-              <a href={t.href}>
-                <span class="v">{t.value}</span>
-                <span class="l">{t.label}</span>
-                {t.note && <span class="n">{t.note}</span>}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )
-    }
-    {
-      cves.length > 0 && (
-        <p class="cves small">
-          <span class="muted">1-day reproductions</span>
-          {cves.map((r) => (
-            <a href={r.data.link ?? '/research/'}>
-              {r.data.cve} <span class="muted">{r.data.target}</span>
-            </a>
-          ))}
-        </p>
-      )
-    }
     <div class="dive" aria-hidden="true"><span></span></div>
   </section>
 
-  <section class="reveal">
-    <div class="head">
-      <h2>Projects</h2>
-      <a class="small" href="/projects/">All projects</a>
-    </div>
-    <EntryList
-      empty="Nothing published yet."
-      items={projects.map((p) => ({
-        href: `/projects/${p.id}/`,
-        title: p.data.title,
-        meta: p.data.tagline,
-        draft: p.data.draft,
-      }))}
-    />
-  </section>
+  <div class="reveal">
+    <RecentWork cards={cards} />
+  </div>
 
   <section class="reveal">
     <div class="head">
@@ -89,7 +81,7 @@ const letters = [...SITE.name];
     <ResearchList items={research} />
   </section>
 
-  <div class:list={['reveal', 'tail', ctf.length > 0 && 'split']}>
+  <div class:list={['reveal', ctf.length > 0 && 'split']}>
     {
       ctf.length > 0 && (
         <section>
@@ -164,84 +156,6 @@ const letters = [...SITE.name];
     color: color-mix(in srgb, var(--ink) 90%, transparent);
     animation: fade 1.4s ease-out 1s both;
   }
-  .proof {
-    list-style: none;
-    margin: 2.25rem 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-    gap: 0.6rem;
-    animation: fade 1.4s ease-out 1.3s both;
-  }
-  .proof a {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    padding: 0.85rem 1rem 0.9rem;
-    border: 1px solid var(--accent-line);
-    border-radius: 10px;
-    background: rgb(4 17 29 / 0.55);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    text-decoration: none;
-    line-height: 1.3;
-    transition:
-      border-color 0.2s,
-      box-shadow 0.2s,
-      transform 0.2s;
-  }
-  .proof a:hover {
-    border-color: var(--accent);
-    box-shadow: 0 12px 30px -18px var(--glow);
-    transform: translateY(-2px);
-    text-shadow: none;
-  }
-  .proof .v {
-    font-family: var(--mono);
-    font-size: 1.75rem;
-    font-weight: 650;
-    letter-spacing: -0.03em;
-    color: var(--accent);
-    text-shadow: 0 0 18px var(--glow);
-  }
-  .proof .l {
-    color: var(--ink);
-    font-size: 0.95rem;
-  }
-  .proof .n {
-    color: var(--muted-water);
-    font-size: 0.78rem;
-  }
-  .cves {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.4rem 0.5rem;
-    margin: 1rem 0 0;
-    animation: fade 1.4s ease-out 1.5s both;
-  }
-  .cves > .muted {
-    color: var(--muted-water);
-    margin-right: 0.25rem;
-  }
-  .cves a {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    padding: 0.15rem 0.55rem;
-    border: 1px solid var(--cyan-line);
-    border-radius: 999px;
-    background: rgb(4 17 29 / 0.5);
-    color: var(--cyan);
-    text-decoration: none;
-  }
-  .cves a .muted {
-    font-family: var(--sans);
-    color: var(--muted-water);
-  }
-  .cves a:hover {
-    border-color: var(--cyan);
-  }
   @keyframes fade {
     from {
       opacity: 0;
@@ -311,8 +225,7 @@ const letters = [...SITE.name];
     margin: 0 0 0.8rem;
     font-size: var(--t-h3);
   }
-  section + section,
-  .tail {
+  .reveal + .reveal {
     margin-top: 3.5rem;
   }
   .split {

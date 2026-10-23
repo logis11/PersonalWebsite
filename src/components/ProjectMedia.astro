@@ -1,13 +1,15 @@
 ---
-// 4:3 photo frame for a project. With no `src`, draws a sonar placeholder so the slot reads as intentional.
+// Photo frame for a project, 4:3 unless `ratio` says otherwise. With no `src`, draws a sonar placeholder so the slot
+// reads as intentional.
 interface Props {
   src?: string;
   alt?: string;
   title: string;
   fit?: 'cover' | 'contain';
+  ratio?: string; // CSS aspect-ratio, e.g. '16 / 9'
   eager?: boolean;
 }
-const { src, alt = '', title, fit = 'cover', eager = false } = Astro.props;
+const { src, alt = '', title, fit = 'cover', ratio = '4 / 3', eager = false } = Astro.props;
 const mono = title
   .split(/[\s-]+/)
   .map((w) => w[0])
@@ -15,7 +17,7 @@ const mono = title
   .slice(0, 3);
 ---
 
-<figure class="media">
+<figure class="media" style={`aspect-ratio: ${ratio}`}>
   {
     src ? (
       <img
@@ -41,7 +43,6 @@ const mono = title
 <style>
   .media {
     margin: 0;
-    aspect-ratio: 4 / 3;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--rule);

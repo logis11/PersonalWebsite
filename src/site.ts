@@ -22,3 +22,14 @@ export const NAV = [
   { href: '/about/', label: 'About', depth: 2800 },
   { href: '/contact/', label: 'Contact', depth: 3200 },
 ];
+
+// Cards in the landing page's "Recent work" slider, in this order. Each names a project or blog post by its file
+// name; `with` folds a companion project into the same card. Entries that aren't published are skipped.
+export const RECENT: ({ project: string; with?: string } | { post: string })[] = [
+  { project: 'huntail', with: 'scovillain' },
+  { project: 'stm32-door-lock' },
+  { post: 'tree-to-segment-tree' },
+  { post: 'ostep-virtualization-to-concurrency' },
+  { post: 'eecs-370-computer-organization' },
+  { project: 'llm-driven-scheduler' },
+];

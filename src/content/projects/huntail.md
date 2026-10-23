@@ -8,10 +8,6 @@ highlights:
   - { value: '3', label: 'solo MSRC reports', note: 'under review' }
   - { value: '4', label: 'team MSRC reports', note: 'under review' }
   - { value: '1', label: 'upstream bug', note: 'virtio-win #1686', href: 'https://github.com/virtio-win/kvm-guest-drivers-windows/issues/1686' }
-proof:
-  - { value: '3', label: 'solo MSRC reports', note: 'Huntail · under review' }
-  - { value: '4', label: 'team MSRC reports', note: 'Huntail · under review' }
-  - { value: '#1686', label: 'upstream bug in virtio-win', note: 'Huntail · labeled bug', href: 'https://github.com/virtio-win/kvm-guest-drivers-windows/issues/1686' }
 stack: [Python, Claude Agent SDK, PE32+, WDM/KMDF]
 repo: https://github.com/logis11/Huntail
 links:

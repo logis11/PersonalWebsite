@@ -62,8 +62,6 @@ const projects = defineCollection({
     // Headline numbers, e.g. { value: '3', label: 'solo MSRC reports', note: 'under review' }.
     // `note` is the status or source shown under the label; `href` links to the evidence.
     highlights: z.array(stat).default([]),
-    // Tiles for the proof strip on the home page. Each links to this project.
-    proof: z.array(stat).default([]),
     // Photo or screenshot, e.g. '/projects/stm32-door-lock/cover.jpg' (4:3). Without one, a placeholder frame is drawn.
     cover: z.string().optional(),
     coverAlt: z.string().default(''),
