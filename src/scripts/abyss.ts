@@ -613,7 +613,9 @@ export function startAbyss(
     'pointerdown',
     (e) => {
       const p = { x: e.clientX, y: e.clientY };
-      if (withEel) eel.strike(p);
+      // Don't lunge at the thing being clicked; the bubbles are enough feedback there.
+      const onControl = (e.target as Element | null)?.closest?.('a, button, summary, input, select, textarea, label');
+      if (withEel && !onControl) eel.strike(p);
       for (let i = 0; i < 7; i++) {
         bubbles.push({
           x: p.x + rand(-10, 10),
@@ -628,12 +630,15 @@ export function startAbyss(
     { passive: true },
   );
 
+  // Without the eel the water only drifts, so half the frame rate is plenty.
+  const minGap = withEel ? 0 : 1000 / 30 - 2;
   let last = performance.now();
   const frame = (t: number) => {
+    requestAnimationFrame(frame);
+    if (t - last < minGap) return;
     step(Math.min(0.05, (t - last) / 1000));
     last = t;
     render();
-    requestAnimationFrame(frame);
   };
   requestAnimationFrame(frame);
 }

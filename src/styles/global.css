@@ -13,6 +13,12 @@
   --accent-ink: #1d1400;
   --glow: rgb(255 210 122 / 0.35);
   --cyan: #8fd8ff;
+  --muted-water: #a9c7da; /* muted text over the lit shallows at the top of the home page */
+  --rule-strong: #44739a; /* borders of controls: 3:1 against paper and surface */
+  --accent-soft: rgb(255 210 122 / 0.08);
+  --accent-line: rgb(255 210 122 / 0.32);
+  --cyan-soft: rgb(143 216 255 / 0.08);
+  --cyan-line: rgb(143 216 255 / 0.3);
 
   --sans: 'Schibsted Grotesk Variable', system-ui, sans-serif;
   --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
@@ -228,7 +234,7 @@ pre {
   font-size: 0.86em;
 }
 :not(pre) > code {
-  background: rgb(143 216 255 / 0.08);
+  background: var(--cyan-soft);
   border: 1px solid rgb(143 216 255 / 0.18);
   color: var(--cyan);
   padding: 0.05em 0.3em;

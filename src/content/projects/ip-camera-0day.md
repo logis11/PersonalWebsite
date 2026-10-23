@@ -5,9 +5,11 @@ summary: A previously unknown bug in a consumer IP camera that gives an unauthen
 period: '2026'
 order: 15
 highlights:
-  - { value: '0-day', label: 'previously unknown' }
+  - { value: '0-day', label: 'previously unknown', note: 'reported to KISA' }
   - { value: 'Pre-auth', label: 'no credentials' }
   - { value: 'root', label: 'shell on the device' }
+proof:
+  - { value: '0-day', label: 'pre-auth RCE to root', note: 'IP camera · reported to KISA' }
 stack: [Embedded Linux, IoT firmware]
 ---
 

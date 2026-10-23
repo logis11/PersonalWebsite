@@ -6,6 +6,8 @@ import Highlights from '../../components/Highlights.astro';
 import { published } from '../../lib/util';
 
 const projects = (await getCollection('projects', published)).sort((a, b) => a.data.order - b.data.order);
+// The first project gets a full-width card; the rest share a grid.
+const [featured, ...rest] = projects;
 ---
 
 <Base title="Projects" description="Tools and systems I have built.">
@@ -14,11 +16,40 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
 
   {projects.length === 0 && <p class="muted">Nothing published yet.</p>}
 
-  <div class="projects">
+  {
+    featured && (
+      <article class="card featured">
+        <div class="body">
+          <h2>
+            <a href={`/projects/${featured.id}/`}>{featured.data.title}</a>
+            {featured.data.draft && <span class="draft small">draft</span>}
+          </h2>
+          {featured.data.tagline && <p class="tagline">{featured.data.tagline}</p>}
+          <p class="small muted period">{featured.data.period}</p>
+          <p>{featured.data.summary}</p>
+          {featured.data.stack.length > 0 && <p class="small muted">{featured.data.stack.join(', ')}</p>}
+        </div>
+        <ProjectMedia
+          src={featured.data.cover}
+          alt={featured.data.coverAlt}
+          fit={featured.data.coverFit}
+          title={featured.data.title}
+          eager
+        />
+        {featured.data.highlights.length > 0 && (
+          <div class="proof">
+            <Highlights items={featured.data.highlights} size="lg" />
+          </div>
+        )}
+      </article>
+    )
+  }
+
+  <div class="grid">
     {
-      projects.map((p) => (
-        <article>
-          <ProjectMedia src={p.data.cover} alt={p.data.coverAlt} title={p.data.title} />
+      rest.map((p) => (
+        <article class="card">
+          <ProjectMedia src={p.data.cover} alt={p.data.coverAlt} fit={p.data.coverFit} title={p.data.title} />
           <div class="body">
             <h2>
               <a href={`/projects/${p.id}/`}>{p.data.title}</a>
@@ -26,8 +57,12 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
             </h2>
             {p.data.tagline && <p class="tagline">{p.data.tagline}</p>}
             <p class="small muted period">{p.data.period}</p>
-            <p>{p.data.summary}</p>
-            <Highlights items={p.data.highlights} />
+            <p class="summary">{p.data.summary}</p>
+            {p.data.highlights.length > 0 && (
+              <div class="stats">
+                <Highlights items={p.data.highlights} />
+              </div>
+            )}
             {p.data.stack.length > 0 && <p class="small muted stack">{p.data.stack.join(', ')}</p>}
           </div>
         </article>
@@ -41,17 +76,8 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
     max-width: 36rem;
     margin-bottom: 2rem;
   }
-  .projects {
-    display: grid;
-    gap: 1rem;
-  }
-  article {
+  .card {
     position: relative;
-    display: grid;
-    grid-template-columns: 13rem 1fr;
-    gap: 1.4rem;
-    align-items: start;
-    padding: 1.1rem;
     border: 1px solid var(--rule);
     border-radius: 12px;
     background: var(--glass);
@@ -62,15 +88,22 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
       box-shadow 0.25s,
       transform 0.25s;
   }
-  article:hover,
-  article:focus-within {
-    border-color: rgb(255 210 122 / 0.45);
+  .card:hover,
+  .card:focus-within {
+    border-color: var(--accent-line);
     box-shadow:
       0 0 0 1px rgb(255 210 122 / 0.12),
       0 18px 40px -24px var(--glow);
     transform: translateY(-2px);
   }
-  /* Whole card is the link target. */
+  /* The whole card is the link target, so keyboard focus has to show on the whole card. */
+  .card:has(h2 a:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .card h2 a:focus-visible {
+    outline: none;
+  }
   h2 a::after {
     content: '';
     position: absolute;
@@ -93,20 +126,51 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
   .period {
     margin: 0.15rem 0 0.6rem;
   }
-  .body {
-    padding-top: 0.2rem;
-  }
   .body > p:last-child {
     margin-bottom: 0;
   }
+
+  .featured {
+    display: grid;
+    grid-template-columns: 1fr 16rem;
+    gap: 1.25rem 1.5rem;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .featured h2 {
+    font-size: var(--t-h2);
+  }
+  .featured .proof {
+    grid-column: 1 / -1;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .grid .card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.9rem 0.9rem 1.2rem;
+  }
+  .grid .body {
+    padding: 0 0.3rem;
+  }
+  .summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+    font-size: 0.98rem;
+  }
+  .stats {
+    margin-bottom: 0.8rem;
+  }
   .stack {
     margin-top: 0.8rem;
-  }
-  @media (max-width: 40rem) {
-    article {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
   }
   .draft {
     color: var(--accent);
@@ -116,5 +180,44 @@ const projects = (await getCollection('projects', published)).sort((a, b) => a.d
     margin-left: 0.5rem;
     font-weight: 400;
     vertical-align: middle;
+  }
+
+  @media (max-width: 40rem) {
+    .featured {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+    }
+    .featured :global(.media) {
+      order: -1;
+    }
+    /* The rest collapse to rows: thumbnail, title, tagline. The detail page has the rest. */
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+    .grid .card {
+      display: grid;
+      grid-template-columns: 6rem 1fr;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.7rem;
+    }
+    .grid .body {
+      padding: 0;
+    }
+    .grid .summary,
+    .grid .stats,
+    .grid .stack {
+      display: none;
+    }
+    .grid .period {
+      margin-bottom: 0;
+    }
+    .grid h2 {
+      font-size: 1.05rem;
+    }
+    .grid .tagline {
+      font-size: var(--t-small);
+    }
   }
 </style>

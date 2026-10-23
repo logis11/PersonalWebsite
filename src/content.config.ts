@@ -43,6 +43,13 @@ const ctf = defineCollection({
   }),
 });
 
+const stat = z.object({
+  value: z.string(),
+  label: z.string(),
+  note: z.string().optional(),
+  href: z.string().optional(),
+});
+
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
@@ -52,11 +59,16 @@ const projects = defineCollection({
     period: z.string(), // free text, e.g. '2026 — present'
     order: z.number().default(100), // lower shows first
     stack: z.array(z.string()).default([]),
-    // Headline numbers shown as chips, e.g. { value: '3', label: 'MSRC solo reports' }.
-    highlights: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
+    // Headline numbers, e.g. { value: '3', label: 'solo MSRC reports', note: 'under review' }.
+    // `note` is the status or source shown under the label; `href` links to the evidence.
+    highlights: z.array(stat).default([]),
+    // Tiles for the proof strip on the home page. Each links to this project.
+    proof: z.array(stat).default([]),
     // Photo or screenshot, e.g. '/projects/stm32-door-lock/cover.jpg' (4:3). Without one, a placeholder frame is drawn.
     cover: z.string().optional(),
     coverAlt: z.string().default(''),
+    // 'contain' letterboxes instead of cropping; use it for screenshots with text.
+    coverFit: z.enum(['cover', 'contain']).default('cover'),
     repo: z.string().url().optional(),
     link: z.string().url().optional(),
     // Extra outbound links, e.g. an upstream bug report.
@@ -76,6 +88,8 @@ const research = defineCollection({
     year: z.number().int(),
     summary: z.string(),
     link: z.string().optional(),
+    // 'withheld' while under coordinated disclosure, 'soon' until a write-up exists.
+    writeup: z.enum(['published', 'soon', 'withheld']).default('soon'),
     draft: z.boolean().default(false),
   }),
 });

@@ -77,6 +77,14 @@ const posts = (await getCollection('blog', published)).sort(byDateDesc);
       0 18px 40px -24px var(--glow);
     transform: translateY(-2px);
   }
+  /* The whole card is the link target, so keyboard focus has to show on the whole card. */
+  article:has(h2 a:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  article h2 a:focus-visible {
+    outline: none;
+  }
   .thumb {
     aspect-ratio: 16 / 9;
     background: linear-gradient(#0b2f4a, #020812);

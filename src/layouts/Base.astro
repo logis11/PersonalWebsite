@@ -1,7 +1,9 @@
 ---
 import '../styles/global.css';
 import Abyss from '../components/Abyss.astro';
+import { getCollection } from 'astro:content';
 import { SITE, NAV } from '../site';
+import { published } from '../lib/util';
 
 interface Props {
   title?: string;
@@ -14,6 +16,11 @@ const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
 const home = path === '/';
 const depth = NAV.find((n) => path.startsWith(n.href))?.depth ?? 3600;
+// A section with nothing published yet stays out of the nav (its page still exists).
+const empty = new Set<string>();
+if ((await getCollection('ctf', published)).length === 0) empty.add('/ctf/');
+if ((await getCollection('blog', published)).length === 0) empty.add('/blog/');
+const nav = NAV.filter((n) => !empty.has(n.href));
 ---
 
 <!doctype html>
@@ -42,7 +49,7 @@ const depth = NAV.find((n) => path.startsWith(n.href))?.depth ?? 3600;
         </a>
         <nav aria-label="Main">
           {
-            NAV.map((item) => (
+            nav.map((item) => (
               <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
                 {item.label}
               </a>
@@ -143,6 +150,10 @@ const depth = NAV.find((n) => path.startsWith(n.href))?.depth ?? 3600;
   nav a {
     color: var(--muted);
     text-decoration: none;
+  }
+  /* The top of the home page sits in lit water, where --muted falls under 4.5:1. */
+  :global(.home) nav a {
+    color: var(--muted-water);
   }
   nav a:hover,
   nav a[aria-current='page'] {

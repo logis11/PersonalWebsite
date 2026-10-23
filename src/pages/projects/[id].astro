@@ -22,7 +22,7 @@ const d = entry.data;
   <p class="small muted meta">
     {d.period}{d.stack.length > 0 && `. ${d.stack.join(', ')}`}
   </p>
-  <div class="hl"><Highlights items={d.highlights} /></div>
+  <div class="hl"><Highlights items={d.highlights} size="lg" /></div>
   {
     (d.repo || d.link || d.links.length > 0) && (
       <p class="links">
@@ -37,7 +37,7 @@ const d = entry.data;
   {
     (d.cover || import.meta.env.DEV) && (
       <div class="cover">
-        <ProjectMedia src={d.cover} alt={d.coverAlt} title={d.title} eager />
+        <ProjectMedia src={d.cover} alt={d.coverAlt} fit={d.coverFit} title={d.title} eager />
       </div>
     )
   }

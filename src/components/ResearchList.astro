@@ -5,36 +5,101 @@ interface Props {
   items: Research[];
 }
 const { items } = Astro.props;
+
+// Own findings first, then analyses, then reproductions of public bugs. Items arrive sorted by byResearch.
+const GROUPS = [
+  { kind: 'Disclosure', label: 'Disclosures' },
+  { kind: 'Analysis', label: 'Analyses' },
+  { kind: '1-day reproduction', label: '1-day reproductions' },
+] as const;
+const groups = GROUPS.map((g) => ({ ...g, items: items.filter((i) => i.data.kind === g.kind) })).filter(
+  (g) => g.items.length > 0,
+);
+const tone = { Disclosure: 'gold', Analysis: 'plain', '1-day reproduction': 'cyan' } as const;
+const external = (href: string) => /^https?:/.test(href);
 ---
 
-<ol class="research" role="list">
+<div class="research">
   {
-    items.map(({ data }) => (
-      <li class="glow-row">
-        <div class="id">
-          <span class="cve">{data.cve ?? data.target}</span>
-          <span class="year muted">{data.year}</span>
-        </div>
-        <div class="body">
-          <h3>{data.link ? <a href={data.link}>{data.title}</a> : data.title}</h3>
-          <p>{data.summary}</p>
-        </div>
-        <div class="kind small muted">{data.kind}</div>
-      </li>
+    groups.map((g) => (
+      <section>
+        <h3 class="group">
+          {g.label} <span class="count">{g.items.length}</span>
+        </h3>
+        <ol role="list">
+          {g.items.map(({ data }) => (
+            <li class="glow-row">
+              <div class="id">
+                <span class:list={['cve', !data.cve && data.kind === 'Disclosure' && 'zero']}>
+                  {data.cve ?? (data.kind === 'Disclosure' ? '0-day' : data.target)}
+                </span>
+                <span class="year muted">{data.year}</span>
+              </div>
+              <div class="body">
+                <h4>{data.link ? <a href={data.link}>{data.title}</a> : data.title}</h4>
+                <p class="target small">{data.target}</p>
+                <p>{data.summary}</p>
+              </div>
+              <div class="side small">
+                <span class:list={['badge', tone[data.kind]]}>{data.kind}</span>
+                {data.writeup === 'withheld' ? (
+                  <span class="status">
+                    <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true">
+                      <path
+                        d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2M3.5 7h9v7h-9z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                      />
+                    </svg>
+                    Withheld until fix
+                  </span>
+                ) : data.writeup === 'published' && data.link ? (
+                  <a class="status" href={data.link}>
+                    Write-up{external(data.link) && ' ↗'}
+                  </a>
+                ) : (
+                  <span class="status">Write-up soon</span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
     ))
   }
-</ol>
+</div>
 
 <style>
   .research {
+    border-top: 2px solid var(--ink);
+  }
+  section + section {
+    margin-top: 1.75rem;
+  }
+  .group {
+    margin: 0;
+    padding: 0.9rem 0 0.35rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--rule);
+  }
+  .count {
+    color: var(--accent);
+    margin-left: 0.3rem;
+  }
+  ol {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 2px solid var(--ink);
   }
   li {
     display: grid;
-    grid-template-columns: 9.5rem 1fr 8rem;
+    grid-template-columns: 9.5rem 1fr 8.5rem;
     gap: 0.25rem 1.25rem;
     padding: 1.1rem 0 1.15rem;
     border-bottom: 1px solid var(--rule);
@@ -48,34 +113,68 @@ const { items } = Astro.props;
     font-family: var(--mono);
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--accent);
+    color: var(--cyan);
     letter-spacing: -0.01em;
+  }
+  .cve.zero {
+    color: var(--accent);
+    font-size: 1.05rem;
+    text-shadow: 0 0 14px var(--glow);
   }
   .year {
     font-size: var(--t-small);
   }
-  h3 {
-    margin: 0 0 0.2rem;
+  h4 {
+    margin: 0;
     font-size: 1.0625rem;
     font-weight: 600;
     letter-spacing: -0.005em;
+    line-height: 1.3;
   }
-  h3 a {
+  h4 a {
     color: var(--ink);
     text-decoration-color: var(--accent);
   }
-  .body p {
+  .target {
+    margin: 0.1rem 0 0.35rem;
+    color: var(--muted);
+  }
+  .body p:last-child {
     margin: 0;
     color: var(--muted);
   }
-  .kind {
-    justify-self: end;
-    align-self: start;
-    margin-top: 0.15rem;
+  .side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+    margin-top: 0.1rem;
+  }
+  .badge {
     padding: 0.05rem 0.55rem;
-    border: 1px solid var(--rule);
+    border: 1px solid var(--rule-strong);
     border-radius: 999px;
     white-space: nowrap;
+    color: var(--muted);
+  }
+  .badge.gold {
+    border-color: var(--accent-line);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .badge.cyan {
+    border-color: var(--cyan-line);
+    color: var(--cyan);
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  a.status {
+    color: var(--accent);
   }
   @media (max-width: 40rem) {
     li {
@@ -83,11 +182,14 @@ const { items } = Astro.props;
     }
     .id {
       flex-direction: row;
+      align-items: baseline;
       gap: 0.6rem;
     }
-    .kind {
-      justify-self: start;
-      margin-top: 0.3rem;
+    .side {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.4rem;
     }
   }
 </style>

@@ -4,9 +4,10 @@ interface Props {
   src?: string;
   alt?: string;
   title: string;
+  fit?: 'cover' | 'contain';
   eager?: boolean;
 }
-const { src, alt = '', title, eager = false } = Astro.props;
+const { src, alt = '', title, fit = 'cover', eager = false } = Astro.props;
 const mono = title
   .split(/[\s-]+/)
   .map((w) => w[0])
@@ -17,9 +18,19 @@ const mono = title
 <figure class="media">
   {
     src ? (
-      <img src={src} alt={alt} width="1200" height="900" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+      <img
+        class:list={[fit]}
+        src={src}
+        alt={alt}
+        width="1200"
+        height="900"
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
     ) : (
       <div class="ph" aria-hidden="true">
+        <span class="sweep" />
+        <span class="blip" />
         <span class="mono">{mono}</span>
         {import.meta.env.DEV && <span class="hint">cover: /projects/…/cover.jpg</span>}
       </div>
@@ -35,6 +46,7 @@ const mono = title
     overflow: hidden;
     border: 1px solid var(--rule);
     background: var(--surface);
+    container-type: inline-size;
   }
   img {
     display: block;
@@ -42,22 +54,66 @@ const mono = title
     height: 100%;
     object-fit: cover;
   }
+  img.contain {
+    object-fit: contain;
+  }
   .ph {
     position: relative;
     height: 100%;
     display: grid;
     place-items: center;
+    overflow: hidden;
     background:
-      radial-gradient(circle at 50% 55%, rgb(255 210 122 / 0.14), transparent 22%),
-      repeating-radial-gradient(circle at 50% 55%, transparent 0 22px, rgb(143 216 255 / 0.07) 22px 23px),
+      radial-gradient(circle at 50% 50%, rgb(255 210 122 / 0.12), transparent 20%),
+      repeating-radial-gradient(circle at 50% 50%, transparent 0 9cqi, rgb(143 216 255 / 0.08) 9cqi calc(9cqi + 1px)),
       linear-gradient(180deg, #0b2438, #061624);
   }
+  /* A sonar arm sweeping round the centre. */
+  .sweep {
+    position: absolute;
+    width: 150cqi;
+    aspect-ratio: 1;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    background: conic-gradient(from 0deg, rgb(143 216 255 / 0.16), transparent 18%);
+    border-radius: 50%;
+    animation: sweep 6s linear infinite;
+  }
+  @keyframes sweep {
+    to {
+      rotate: 1turn;
+    }
+  }
+  /* A contact on the screen, in lure gold. */
+  .blip {
+    position: absolute;
+    left: 68%;
+    top: 32%;
+    width: 3cqi;
+    min-width: 4px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 3cqi var(--accent);
+    animation: blip 6s ease-out infinite;
+  }
+  @keyframes blip {
+    0%,
+    100% {
+      opacity: 0.25;
+    }
+    8% {
+      opacity: 1;
+    }
+  }
   .mono {
+    position: relative;
     font-family: var(--mono);
-    font-size: 1.6rem;
+    font-size: clamp(0.8rem, 11cqi, 1.8rem);
     font-weight: 600;
     letter-spacing: 0.08em;
-    color: rgb(226 240 250 / 0.28);
+    color: rgb(226 240 250 / 0.3);
   }
   .hint {
     position: absolute;
@@ -67,5 +123,10 @@ const mono = title
     font-size: 0.7rem;
     color: var(--accent);
     opacity: 0.7;
+  }
+  @container (max-width: 8rem) {
+    .hint {
+      display: none;
+    }
   }
 </style>
