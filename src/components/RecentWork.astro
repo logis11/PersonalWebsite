@@ -1,6 +1,7 @@
 ---
-// Landing-page slider of recent projects and posts. It drifts on its own and stops while someone hovers, focuses,
-// touches or scrolls it. Without JS, or with reduced motion, it is a plain row that scrolls and snaps by hand.
+// Landing-page slider of recent projects and posts. It drifts on its own without end: it slows under the mouse,
+// and stops only while a keyboard user is inside it or someone is steering it by hand. Without JS, or with reduced
+// motion, it is a plain row that scrolls and snaps by hand.
 import ProjectMedia from './ProjectMedia.astro';
 
 export interface Card {
@@ -78,8 +79,10 @@ const { cards } = Astro.props;
       root.classList.add('drifting');
       // One loop is the first copy plus the gap before the clone; past that the view is identical to 0.
       const loop = () => clone.offsetLeft - first.offsetLeft;
-      const SPEED = 32; // px per second
+      const SPEED = 48; // px per second
+      const HOVER = 0.3; // fraction of SPEED under the mouse, so a card can be read without the row stopping
       let pos = rail.scrollLeft;
+      let v = 0; // current speed; eases toward the target so starts and stops don't jerk
       let hovered = false;
       let visible = true;
       let last = performance.now();
@@ -110,10 +113,13 @@ const { cards } = Astro.props;
       const frame = (t: number) => {
         const dt = Math.min(0.05, (t - last) / 1000);
         last = t;
-        const paused = hovered || root.contains(document.activeElement) || t < holdUntil || !visible || document.hidden;
-        if (!paused) {
+        // Only keyboard focus holds it: a clicked arrow button keeps focus, and must not stop the row for good.
+        const held = root.querySelector(':focus-visible') || t < holdUntil || !visible || document.hidden;
+        const target = held ? 0 : hovered ? SPEED * HOVER : SPEED;
+        v += (target - v) * (1 - Math.exp(-dt * 4));
+        if (v > 0.5) {
           // Keep the position as a float; scrollLeft may round to whole pixels and stall a slow drift.
-          pos += SPEED * dt;
+          pos += v * dt;
           const L = loop();
           if (L > 0 && pos >= L) pos -= L;
           rail.scrollLeft = pos;
