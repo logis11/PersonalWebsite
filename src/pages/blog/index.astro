@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import EntryList from '../../components/EntryList.astro';
 import { SITE } from '../../site';
 import { published, byDateDesc, fmtDate } from '../../lib/util';
 
@@ -11,25 +10,127 @@ const posts = (await getCollection('blog', published)).sort(byDateDesc);
 <Base title="Blog" description="Writeups and notes on exploitation and systems.">
   <h1>Blog</h1>
   <p class="muted intro">
-    Selected writeups in English.
+    Selected writeups in English.{' '}
     {SITE.velog && <>My day-to-day study notes, in Korean, are on <a href={SITE.velog}>Velog</a>.</>}
   </p>
-  <EntryList
-    empty="Nothing published yet."
-    items={posts.map((p) => ({
-      href: `/blog/${p.id}/`,
-      title: p.data.title,
-      date: fmtDate(p.data.date),
-      meta: p.data.tags.join(', '),
-      summary: p.data.summary,
-      draft: p.data.draft,
-    }))}
-  />
+  {posts.length === 0 && <p class="muted">Nothing published yet.</p>}
+  <ul class="posts" role="list">
+    {
+      posts.map((p) => (
+        <li>
+          <article>
+            <div class="thumb">
+              {p.data.cover && <img src={p.data.cover} alt={p.data.coverAlt} width="1280" height="720" loading="lazy" />}
+            </div>
+            <div class="text">
+              <p class="small muted meta">
+                <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time>
+                {p.data.tags.length > 0 && <span class="tags">{p.data.tags.join(', ')}</span>}
+              </p>
+              <h2>
+                <a href={`/blog/${p.id}/`}>{p.data.title}</a>
+                {p.data.draft && <span class="draft small">draft</span>}
+              </h2>
+              {p.data.summary && <p class="summary">{p.data.summary}</p>}
+            </div>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
 </Base>
 
 <style>
   .intro {
     max-width: 36rem;
     margin-bottom: 2rem;
+  }
+  .posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 1.25rem;
+  }
+  article {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--glass);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition:
+      border-color 0.25s,
+      box-shadow 0.25s,
+      transform 0.25s;
+  }
+  article:hover,
+  article:focus-within {
+    border-color: rgb(255 210 122 / 0.45);
+    box-shadow:
+      0 0 0 1px rgb(255 210 122 / 0.12),
+      0 18px 40px -24px var(--glow);
+    transform: translateY(-2px);
+  }
+  .thumb {
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(#0b2f4a, #020812);
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease-out);
+  }
+  article:hover .thumb img {
+    transform: scale(1.04);
+  }
+  .text {
+    padding: 0.9rem 1.1rem 1.1rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.6rem;
+    margin-bottom: 0.35rem;
+  }
+  .tags {
+    color: var(--accent);
+  }
+  h2 {
+    font-size: var(--t-h3);
+    margin: 0 0 0.4rem;
+  }
+  h2 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  /* Whole card is the link target. */
+  h2 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .summary {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .draft {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 0 0.3em;
+    margin-left: 0.5rem;
+    font-weight: 400;
+    vertical-align: middle;
   }
 </style>

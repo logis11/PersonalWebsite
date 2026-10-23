@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b2f4a"/><stop offset="1" stop-color="#020812"/></linearGradient>
+  <radialGradient id="glow" cx="640" cy="300" r="420" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3c8fd0" stop-opacity=".28"/><stop offset="1" stop-color="#3c8fd0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lure" r=".5"><stop offset="0" stop-color="#ffd27a" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="#8fd8ff" opacity=".12"/></pattern>
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<rect width="1280" height="720" fill="url(#dots)"/>
+<rect width="1280" height="720" fill="url(#glow)"/>
+<line x1="640" y1="110" x2="380" y2="220" stroke="#ffd27a" stroke-width="3.5" opacity="0.9"/>
+<line x1="640" y1="110" x2="900" y2="220" stroke="#ffd27a" stroke-width="3.5" opacity="0.9"/>
+<line x1="380" y1="220" x2="250" y2="330" stroke="#1d3a52" stroke-width="2.5" opacity="1"/>
+<line x1="380" y1="220" x2="510" y2="330" stroke="#ffd27a" stroke-width="3.5" opacity="0.9"/>
+<line x1="250" y1="330" x2="185" y2="440" stroke="#1d3a52" stroke-width="2.5" opacity="1"/>
+<line x1="250" y1="330" x2="315" y2="440" stroke="#1d3a52" stroke-width="2.5" opacity="1"/>
+<line x1="510" y1="330" x2="445" y2="440" stroke="#1d3a52" stroke-width="2.5" opacity="1"/>
+<line x1="510" y1="330" x2="575" y2="440" stroke="#1d3a52" stroke-width="2.5" opacity="1"/>
+<line x1="900" y1="220" x2="770" y2="330" stroke="#ffd27a" stroke-width="3.5" opacity="0.9"/>
+<line x1="900" y1="220" x2="1030" y2="330" stroke="#ffd27a" stroke-width="3.5" opacity="0.9"/>
+<line x1="770" y1="330" x2="705" y2="440" stroke="#1d3a52" stroke-width="2.5" opacity="1"/>
+<line x1="770" y1="330" x2="835" y2="440" stroke="#1d3a52" stroke-width="2.5" opacity="1"/>
+<line x1="1030" y1="330" x2="965" y2="440" stroke="#ffd27a" stroke-width="3.5" opacity="0.9"/>
+<line x1="1030" y1="330" x2="1095" y2="440" stroke="#1d3a52" stroke-width="2.5" opacity="1"/>
+<circle cx="640" cy="110" r="30" fill="#0f3a5c" stroke="#ffd27a" stroke-opacity="1" stroke-width="3"/>
+<text x="640" y="117" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#e2f0fa">0–7</text>
+<circle cx="380" cy="220" r="30" fill="#0f3a5c" stroke="#ffd27a" stroke-opacity="1" stroke-width="3"/>
+<text x="380" y="227" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#e2f0fa">0–3</text>
+<circle cx="250" cy="330" r="30" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.6" stroke-width="3"/>
+<text x="250" y="337" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#e2f0fa">0–1</text>
+<circle cx="185" cy="440" r="24" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.6" stroke-width="3"/>
+<text x="185" y="447" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#e2f0fa">0</text>
+<circle cx="315" cy="440" r="24" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.6" stroke-width="3"/>
+<text x="315" y="447" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#e2f0fa">1</text>
+<circle cx="510" cy="330" r="30" fill="#3a3216" stroke="#ffd27a" stroke-opacity="1" stroke-width="3"/>
+<text x="510" y="337" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#ffd27a">2–3</text>
+<circle cx="445" cy="440" r="24" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.6" stroke-width="3"/>
+<text x="445" y="447" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#e2f0fa">2</text>
+<circle cx="575" cy="440" r="24" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.6" stroke-width="3"/>
+<text x="575" y="447" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#e2f0fa">3</text>
+<circle cx="900" cy="220" r="30" fill="#0f3a5c" stroke="#ffd27a" stroke-opacity="1" stroke-width="3"/>
+<text x="900" y="227" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#e2f0fa">4–7</text>
+<circle cx="770" cy="330" r="30" fill="#3a3216" stroke="#ffd27a" stroke-opacity="1" stroke-width="3"/>
+<text x="770" y="337" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#ffd27a">4–5</text>
+<circle cx="705" cy="440" r="24" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.6" stroke-width="3"/>
+<text x="705" y="447" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#e2f0fa">4</text>
+<circle cx="835" cy="440" r="24" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.6" stroke-width="3"/>
+<text x="835" y="447" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#e2f0fa">5</text>
+<circle cx="1030" cy="330" r="30" fill="#0f3a5c" stroke="#ffd27a" stroke-opacity="1" stroke-width="3"/>
+<text x="1030" y="337" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#e2f0fa">6–7</text>
+<circle cx="965" cy="440" r="24" fill="#3a3216" stroke="#ffd27a" stroke-opacity="1" stroke-width="3"/>
+<text x="965" y="447" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#ffd27a">6</text>
+<circle cx="1095" cy="440" r="24" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.6" stroke-width="3"/>
+<text x="1095" y="447" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#e2f0fa">7</text>
+<text x="120" y="560" font-family="ui-monospace, monospace" font-size="24" fill="#8fd8ff" opacity=".8">query(2, 6) = 3 nodes, O(log n)</text>
+<text x="72" y="656" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="26" letter-spacing="3" fill="#8eafc5">ALGORITHMS / SEGMENT TREE</text>
+<circle cx="56" cy="647" r="6" fill="#ffd27a"/><circle cx="56" cy="647" r="22" fill="url(#lure)"/>
+</svg>

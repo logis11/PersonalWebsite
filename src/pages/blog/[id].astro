@@ -22,6 +22,7 @@ const d = entry.data;
       {d.tags.length > 0 && <span>, {d.tags.join(', ')}</span>}
       {d.canonical && <span>. <a href={d.canonical}>Originally on Velog</a></span>}
     </p>
+    {d.cover && <img class="cover" src={d.cover} alt={d.coverAlt} width="1280" height="720" />}
     <div class="prose">
       <Content />
     </div>
@@ -34,5 +35,14 @@ const d = entry.data;
   }
   .meta {
     margin-bottom: 2.5rem;
+  }
+  .cover {
+    display: block;
+    width: 100%;
+    max-width: 40rem;
+    height: auto;
+    margin: -1rem 0 2.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
   }
 </style>

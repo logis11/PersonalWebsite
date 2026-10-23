@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b2f4a"/><stop offset="1" stop-color="#020812"/></linearGradient>
+  <radialGradient id="glow" cx="1010" cy="390" r="420" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3c8fd0" stop-opacity=".28"/><stop offset="1" stop-color="#3c8fd0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lure" r=".5"><stop offset="0" stop-color="#ffd27a" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="#8fd8ff" opacity=".12"/></pattern>
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<rect width="1280" height="720" fill="url(#dots)"/>
+<rect width="1280" height="720" fill="url(#glow)"/>
+<text x="90" y="240" font-family="ui-monospace, monospace" font-size="22" fill="#8eafc5">P0</text>
+<line x1="140" y1="232" x2="692" y2="232" stroke="#1d3a52" stroke-width="2"/>
+<rect x="143" y="210" width="40" height="44" rx="7" fill="#4f9be0" opacity=".9"/>
+<rect x="281" y="210" width="40" height="44" rx="7" fill="#4f9be0" opacity=".9"/>
+<rect x="419" y="210" width="40" height="44" rx="7" fill="#4f9be0" opacity=".9"/>
+<rect x="603" y="210" width="40" height="44" rx="7" fill="#4f9be0" opacity=".9"/>
+<text x="90" y="318" font-family="ui-monospace, monospace" font-size="22" fill="#8eafc5">P1</text>
+<line x1="140" y1="310" x2="692" y2="310" stroke="#1d3a52" stroke-width="2"/>
+<rect x="189" y="288" width="40" height="44" rx="7" fill="#3fc1b5" opacity=".9"/>
+<rect x="373" y="288" width="40" height="44" rx="7" fill="#3fc1b5" opacity=".9"/>
+<rect x="465" y="288" width="40" height="44" rx="7" fill="#3fc1b5" opacity=".9"/>
+<rect x="649" y="288" width="40" height="44" rx="7" fill="#3fc1b5" opacity=".9"/>
+<text x="90" y="396" font-family="ui-monospace, monospace" font-size="22" fill="#8eafc5">P2</text>
+<line x1="140" y1="388" x2="692" y2="388" stroke="#1d3a52" stroke-width="2"/>
+<rect x="235" y="366" width="40" height="44" rx="7" fill="#7f7fe6" opacity=".9"/>
+<rect x="327" y="366" width="40" height="44" rx="7" fill="#7f7fe6" opacity=".9"/>
+<rect x="511" y="366" width="40" height="44" rx="7" fill="#7f7fe6" opacity=".9"/>
+<rect x="557" y="366" width="40" height="44" rx="7" fill="#7f7fe6" opacity=".9"/>
+<path d="M720 210 C 870 210, 850 360, 952 360" fill="none" stroke="#8fd8ff" stroke-width="4" stroke-dasharray="none" opacity=".75"/>
+<path d="M720 300 C 870 300, 850 360, 952 360" fill="none" stroke="#8fd8ff" stroke-width="4" stroke-dasharray="14 10" opacity=".75"/>
+<path d="M720 390 C 870 390, 850 360, 952 360" fill="none" stroke="#8fd8ff" stroke-width="4" stroke-dasharray="none" opacity=".75"/>
+<path d="M720 480 C 870 480, 850 360, 952 360" fill="none" stroke="#8fd8ff" stroke-width="4" stroke-dasharray="14 10" opacity=".75"/>
+<path d="M976 350 v-36 a34 34 0 0 1 68 0 v36" fill="none" stroke="#ffd27a" stroke-width="12"/>
+<rect x="952" y="346" width="116" height="96" rx="14" fill="#ffd27a"/>
+<circle cx="1010" cy="386" r="11" fill="#1d1400"/><rect x="1006" y="390" width="8" height="26" rx="3" fill="#1d1400"/>
+<circle cx="1010" cy="390" r="150" fill="url(#lure)" opacity=".35"/>
+<text x="90" y="530" font-family="ui-monospace, monospace" font-size="24" fill="#8fd8ff" opacity=".8">virtualize the CPU  →  share it safely</text>
+<text x="72" y="656" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="26" letter-spacing="3" fill="#8eafc5">OS / OSTEP</text>
+<circle cx="56" cy="647" r="6" fill="#ffd27a"/><circle cx="56" cy="647" r="22" fill="url(#lure)"/>
+</svg>

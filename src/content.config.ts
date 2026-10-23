@@ -9,6 +9,9 @@ const blog = defineCollection({
     date: z.coerce.date(),
     summary: z.string().optional(),
     tags: z.array(z.string()).default([]),
+    // Thumbnail shown on the blog index and at the top of the post, e.g. '/blog/ostep.svg' (16:9).
+    cover: z.string().optional(),
+    coverAlt: z.string().default(''),
     draft: z.boolean().default(false),
     // Point at the original Velog post if this is a translated/edited version.
     canonical: z.string().url().optional(),

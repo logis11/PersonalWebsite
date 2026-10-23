@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b2f4a"/><stop offset="1" stop-color="#020812"/></linearGradient>
+  <radialGradient id="glow" cx="900" cy="260" r="420" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3c8fd0" stop-opacity=".28"/><stop offset="1" stop-color="#3c8fd0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lure" r=".5"><stop offset="0" stop-color="#ffd27a" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="#8fd8ff" opacity=".12"/></pattern>
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<rect width="1280" height="720" fill="url(#dots)"/>
+<rect width="1280" height="720" fill="url(#glow)"/>
+<rect x="190" y="150" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="234" y="190" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">IF</text>
+<rect x="283" y="150" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="326" y="190" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">ID</text>
+<rect x="376" y="150" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="420" y="190" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">EX</text>
+<rect x="469" y="150" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="512" y="190" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">MEM</text>
+<rect x="562" y="150" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="606" y="190" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">WB</text>
+<rect x="283" y="226" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="326" y="266" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">IF</text>
+<rect x="376" y="226" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="420" y="266" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">ID</text>
+<rect x="469" y="226" width="87" height="62" rx="9" fill="#3a3216" stroke="#ffd27a" stroke-opacity="1" stroke-width="2.5"/>
+<text x="512" y="266" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#ffd27a">EX</text>
+<rect x="562" y="226" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="606" y="266" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">MEM</text>
+<rect x="655" y="226" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="698" y="266" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">WB</text>
+<rect x="376" y="302" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="420" y="342" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">IF</text>
+<rect x="469" y="302" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="512" y="342" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">ID</text>
+<rect x="562" y="302" width="87" height="62" rx="9" fill="#3a3216" stroke="#ffd27a" stroke-opacity="1" stroke-width="2.5"/>
+<text x="606" y="342" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#ffd27a">EX</text>
+<rect x="655" y="302" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="698" y="342" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">MEM</text>
+<rect x="748" y="302" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="792" y="342" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">WB</text>
+<rect x="469" y="378" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="512" y="418" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">IF</text>
+<rect x="562" y="378" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="606" y="418" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">ID</text>
+<rect x="655" y="378" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="698" y="418" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">EX</text>
+<rect x="748" y="378" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="792" y="418" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">MEM</text>
+<rect x="841" y="378" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="884" y="418" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">WB</text>
+<rect x="562" y="454" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="606" y="494" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">IF</text>
+<rect x="655" y="454" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="698" y="494" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">ID</text>
+<rect x="748" y="454" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="792" y="494" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">EX</text>
+<rect x="841" y="454" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="884" y="494" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">MEM</text>
+<rect x="934" y="454" width="87" height="62" rx="9" fill="#0f3a5c" stroke="#8fd8ff" stroke-opacity="0.55" stroke-width="2.5"/>
+<text x="978" y="494" text-anchor="middle" font-family="ui-monospace, monospace" font-size="24" fill="#e2f0fa">WB</text>
+<path d="M464 290 C 464 308, 492 278, 492 298" fill="none" stroke="#ffd27a" stroke-width="4"/>
+<path d="M482 286 l10 14 l10 -14" fill="none" stroke="#ffd27a" stroke-width="4"/>
+<text x="190" y="570" font-family="ui-monospace, monospace" font-size="24" fill="#8fd8ff" opacity=".8">add 1 2 3 / nor 3 4 5  // forward, don't stall</text>
+<text x="72" y="656" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="26" letter-spacing="3" fill="#8eafc5">EECS 370 / COMPUTER ORGANIZATION</text>
+<circle cx="56" cy="647" r="6" fill="#ffd27a"/><circle cx="56" cy="647" r="22" fill="url(#lure)"/>
+</svg>

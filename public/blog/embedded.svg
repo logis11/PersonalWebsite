@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b2f4a"/><stop offset="1" stop-color="#020812"/></linearGradient>
+  <radialGradient id="glow" cx="230" cy="480" r="420" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3c8fd0" stop-opacity=".28"/><stop offset="1" stop-color="#3c8fd0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lure" r=".5"><stop offset="0" stop-color="#ffd27a" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+  <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="#8fd8ff" opacity=".12"/></pattern>
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<rect width="1280" height="720" fill="url(#dots)"/>
+<rect width="1280" height="720" fill="url(#glow)"/>
+<path d="M610 225 H 800 V 130 H 900" fill="none" stroke="#8fd8ff" stroke-opacity=".55" stroke-width="3"/>
+<rect x="900" y="108" width="64" height="44" rx="10" fill="#0f3a5c" stroke="#8fd8ff" stroke-width="2.5"/>
+<circle cx="932" cy="130" r="11" fill="#8fd8ff" opacity=".7"/>
+<path d="M610 275 H 800 V 225 H 900" fill="none" stroke="#8fd8ff" stroke-opacity=".55" stroke-width="3"/>
+<rect x="900" y="203" width="64" height="44" rx="10" fill="#0f3a5c" stroke="#8fd8ff" stroke-width="2.5"/>
+<circle cx="932" cy="225" r="11" fill="#8fd8ff" opacity=".7"/>
+<path d="M610 325 H 800 V 320 H 900" fill="none" stroke="#8fd8ff" stroke-opacity=".55" stroke-width="3"/>
+<rect x="900" y="298" width="64" height="44" rx="10" fill="#0f3a5c" stroke="#8fd8ff" stroke-width="2.5"/>
+<circle cx="932" cy="320" r="11" fill="#8fd8ff" opacity=".7"/>
+<path d="M610 375 H 800 V 415 H 900" fill="none" stroke="#8fd8ff" stroke-opacity=".55" stroke-width="3"/>
+<rect x="900" y="393" width="64" height="44" rx="10" fill="#0f3a5c" stroke="#8fd8ff" stroke-width="2.5"/>
+<circle cx="932" cy="415" r="11" fill="#8fd8ff" opacity=".7"/>
+<path d="M390 300 H 230 V 470" fill="none" stroke="#ffd27a" stroke-width="3.5"/>
+<circle cx="230" cy="500" r="80" fill="url(#lure)" opacity=".7"/>
+<circle cx="230" cy="500" r="26" fill="#ffd27a"/>
+<rect x="405" y="164" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="405" y="410" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="364" y="205" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="610" y="205" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="434" y="164" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="434" y="410" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="364" y="234" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="610" y="234" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="464" y="164" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="464" y="410" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="364" y="264" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="610" y="264" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="493" y="164" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="493" y="410" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="364" y="293" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="610" y="293" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="522" y="164" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="522" y="410" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="364" y="322" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="610" y="322" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="552" y="164" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="552" y="410" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="364" y="352" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="610" y="352" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="581" y="164" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="581" y="410" width="14" height="26" rx="3" fill="#8eafc5"/>
+<rect x="364" y="381" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="610" y="381" width="26" height="14" rx="3" fill="#8eafc5"/>
+<rect x="390" y="190" width="220" height="220" rx="18" fill="#0a2133" stroke="#8fd8ff" stroke-width="3"/>
+<circle cx="420" cy="220" r="8" fill="#1d3a52"/>
+<text x="500" y="294" text-anchor="middle" font-family="ui-monospace, monospace" font-size="30" font-weight="700" fill="#e2f0fa">STM32</text>
+<text x="500" y="330" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#8eafc5">F103RB</text>
+<text x="1000" y="500" text-anchor="end" font-family="ui-monospace, monospace" font-size="22" fill="#8fd8ff" opacity=".8">GPIOA-&gt;ODR ^= LED;</text>
+<text x="72" y="656" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="26" letter-spacing="3" fill="#8eafc5">EMBEDDED / BARE METAL</text>
+<circle cx="56" cy="647" r="6" fill="#ffd27a"/><circle cx="56" cy="647" r="22" fill="url(#lure)"/>
+</svg>
