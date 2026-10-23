@@ -26,14 +26,15 @@ npm run preview  # 빌드 결과 확인
 ## 콘텐츠 추가
 
 파일 이름이 URL이 됨 (`src/content/ctf/heap-notes.md` → `/ctf/heap-notes/`).
-각 폴더의 `example-*.md`가 템플릿이고 `draft: true`라 배포엔 안 나감. 다 쓰면 지워도 됨.
+필드 목록과 설명은 `src/content.config.ts` 스키마 주석에 있음. `draft: true`면 개발 서버에서만 보이고 배포엔 안 나감.
 
 - **CTF 문제** `src/content/ctf/*.md`
   - 핸드아웃 파일은 `public/ctf/<slug>/`에 넣고 frontmatter `handouts`에 경로 기입
   - `writeup: open | folded | hidden` — 기본 `folded` (클릭해서 펼침)
   - 플래그 들어간 파일·서버 소스는 올리기 전에 확인
 - **연구** `src/data/research.json` — `kind`: `Disclosure` / `1-day reproduction` / `Analysis`
-- **프로젝트** `src/content/projects/*.md` — `order` 작을수록 위
+- **프로젝트** `src/content/projects/*.md` — `order` 작을수록 위. 사진은 `public/projects/<slug>/cover.jpg`(4:3)에 넣고 `cover:`·`coverAlt:` 기입
+- **랜딩 Recent work 슬라이더** `src/site.ts`의 `RECENT` — 프로젝트·블로그 파일 이름을 순서대로
 - **블로그** `src/content/blog/*.md` — Velog 글 번역본이면 `canonical:`에 원문 URL
 
 ## 배포 (GitHub Pages)
