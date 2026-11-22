@@ -1,245 +1,86 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import ResearchList from '../components/ResearchList.astro';
-import EntryList from '../components/EntryList.astro';
-import RecentWork, { type Card } from '../components/RecentWork.astro';
-import { SITE, RECENT } from '../site';
-import { published, byDateDesc, byResearch, fmtMonth } from '../lib/util';
+import { SITE } from '../site';
+import { published, byDateDesc, fmtDate } from '../lib/util';
 
-const projects = await getCollection('projects', published);
-const research = (await getCollection('research', published)).sort(byResearch);
-const ctf = (await getCollection('ctf', published)).sort(byDateDesc).slice(0, 4);
-const allPosts = (await getCollection('blog', published)).sort(byDateDesc);
-const posts = allPosts.slice(0, 4);
-// Resolve the slider's list against what is published; anything missing drops out.
-const cards = RECENT.flatMap((r): Card[] => {
-  if ('post' in r) {
-    const p = allPosts.find((x) => x.id === r.post);
-    if (!p) return [];
-    const d = p.data;
-    return [
-      {
-        href: `/blog/${p.id}/`,
-        kind: 'Writing',
-        title: d.title,
-        line: d.summary,
-        meta: fmtMonth(d.date),
-        cover: d.cover,
-        coverAlt: d.coverAlt,
-      },
-    ];
-  }
-  const p = projects.find((x) => x.id === r.project);
-  if (!p) return [];
-  const d = p.data;
-  const mate = r.with ? projects.find((x) => x.id === r.with) : undefined;
-  return [
-    {
-      href: `/projects/${p.id}/`,
-      kind: 'Project',
-      title: mate ? `${d.title} + ${mate.data.title}` : d.title,
-      line: d.tagline ?? d.summary,
-      meta: d.period,
-      cover: d.cover,
-      coverAlt: d.coverAlt,
-      coverFit: d.coverFit,
-    },
-  ];
-});
-// Split the name into per-letter spans for the entrance animation; the h1 keeps the plain text as its label.
-const letters = [...SITE.name];
+const posts = (await getCollection('blog', published)).sort(byDateDesc);
 ---
 
 <Base>
-  <section class="hero">
-    <h1 aria-label={SITE.name}>
-      {
-        letters.map((ch, i) => (
-          <span aria-hidden="true" style={`--i:${i}`}>
-            {ch === ' ' ? '\u00a0' : ch}
-          </span>
-        ))
-      }
-    </h1>
-    <p class="lede">
-      I study how software breaks at the memory level: heap corruption in network daemons, Windows kernel drivers,
-      and the firmware inside routers and door locks. Computer Engineering at the University of Michigan.
-    </p>
-    <div class="dive" aria-hidden="true"><span></span></div>
-  </section>
+  <h1>{SITE.name}</h1>
+  <p class="intro">
+    I study how software breaks at the memory level: binary exploitation, Windows kernel drivers, and the firmware
+    inside routers, cameras, and the boards on my desk. Computer Engineering at the University of Michigan.{' '}
+    {SITE.velog && <>My day-to-day notes, in Korean, are on <a href={SITE.velog}>Velog</a>.</>}
+  </p>
 
-  <div class="reveal">
-    <RecentWork cards={cards} />
-  </div>
-
-  <section class="reveal">
-    <div class="head">
-      <h2>Research</h2>
-      <a class="small" href="/research/">All research</a>
-    </div>
-    <ResearchList items={research} />
-  </section>
-
-  <div class:list={['reveal', ctf.length > 0 && 'split']}>
+  <h2 class="section">Writing</h2>
+  {posts.length === 0 && <p class="muted">Nothing published yet.</p>}
+  <ul class="posts" role="list">
     {
-      ctf.length > 0 && (
-        <section>
-          <div class="head">
-            <h2>Challenges I wrote</h2>
-            <a class="small" href="/ctf/">All</a>
-          </div>
-          <EntryList
-            empty="Nothing published yet."
-            items={ctf.map((c) => ({
-              href: `/ctf/${c.id}/`,
-              title: c.data.title,
-              meta: `${c.data.category}, ${c.data.difficulty}`,
-              draft: c.data.draft,
-            }))}
-          />
-        </section>
-      )
+      posts.map((p) => (
+        <li>
+          <p class="small muted meta">
+            <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time>
+            {p.data.tags.length > 0 && <span>{p.data.tags.join(', ')}</span>}
+            {p.data.draft && <span class="draft">draft</span>}
+          </p>
+          <h3>
+            <a href={`/blog/${p.id}/`}>{p.data.title}</a>
+          </h3>
+          {p.data.summary && <p class="summary">{p.data.summary}</p>}
+        </li>
+      ))
     }
-    <section>
-      <div class="head">
-        <h2>Writing</h2>
-        <a class="small" href="/blog/">All</a>
-      </div>
-      <EntryList
-        empty="Nothing published yet."
-        items={posts.map((p) => ({
-          href: `/blog/${p.id}/`,
-          title: p.data.title,
-          date: fmtMonth(p.data.date),
-          draft: p.data.draft,
-        }))}
-      />
-    </section>
-  </div>
+  </ul>
 </Base>
 
 <style>
-  .hero {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 3.5rem 0 5.5rem;
-    margin-bottom: 1rem;
+  .intro {
+    max-width: 36rem;
+    margin-bottom: 3rem;
   }
-  .hero h1 {
-    font-size: var(--t-display);
-    font-weight: 700;
-    letter-spacing: -0.045em;
-    line-height: 0.95;
-    margin: 0 0 1.4rem;
-    text-shadow: 0 0 40px rgb(120 190 255 / 0.25);
+  .section {
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
-  .hero h1 span {
-    display: inline-block;
-    animation: surface 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-    animation-delay: calc(0.25s + var(--i) * 55ms);
-  }
-  @keyframes surface {
-    from {
-      opacity: 0;
-      transform: translateY(0.45em) scale(0.96);
-      filter: blur(10px);
-    }
-  }
-  .lede {
-    font-size: 1.25rem;
-    line-height: 1.5;
-    max-width: 34rem;
+  .posts {
+    list-style: none;
     margin: 0;
-    color: color-mix(in srgb, var(--ink) 90%, transparent);
-    animation: fade 1.4s ease-out 1s both;
+    padding: 0;
   }
-  @keyframes fade {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
+  .posts li + li {
+    margin-top: 2.25rem;
   }
-  .dive {
-    position: absolute;
-    left: 0;
-    bottom: 1.5rem;
-    width: 1px;
-    height: 3.5rem;
-    background: linear-gradient(var(--rule), transparent);
-    animation: fade 1s ease-out 1.8s both;
-  }
-  .dive span {
-    position: absolute;
-    left: -2px;
-    top: 0;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
-    animation: sink 2.4s ease-in-out infinite;
-  }
-  @keyframes sink {
-    0% {
-      transform: translateY(0);
-      opacity: 0;
-    }
-    20% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(3.3rem);
-      opacity: 0;
-    }
-  }
-  /* Sections rise out of the dark as they scroll in. Scroll-driven, so browsers without support, printouts and
-     full-page captures simply get the content. */
-  @supports (animation-timeline: view()) {
-    .reveal {
-      animation: rise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 60%;
-    }
-  }
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(28px);
-    }
-  }
-  @media print {
-    .reveal {
-      animation: none;
-    }
-  }
-  .head {
+  .meta {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0 0.75rem;
+    margin: 0;
   }
-  .head h2 {
-    margin: 0 0 0.8rem;
-    font-size: var(--t-h3);
+  .draft {
+    color: var(--accent);
   }
-  .reveal + .reveal {
-    margin-top: 3.5rem;
+  h3 {
+    margin: 0.1rem 0 0.25rem;
+    font-size: 1.2rem;
   }
-  .split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
+  h3 a {
+    color: var(--ink);
+    text-decoration-color: var(--rule);
   }
-  .split section + section {
-    margin-top: 0;
+  h3 a:hover {
+    text-decoration-color: currentColor;
   }
-  @media (max-width: 40rem) {
-    .split {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
+  .summary {
+    margin: 0;
+    color: var(--muted);
   }
 </style>

@@ -1,8 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import ProjectMedia from '../../components/ProjectMedia.astro';
-import Highlights from '../../components/Highlights.astro';
 import { published } from '../../lib/util';
 
 export async function getStaticPaths() {
@@ -13,67 +11,94 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+const links = [
+  ...(d.repo ? [{ label: 'Repository', href: d.repo }] : []),
+  ...(d.link ? [{ label: 'Live', href: d.link }] : []),
+  ...d.links,
+];
 ---
 
 <Base title={d.title} description={d.summary}>
-  <p class="small back"><a href="/projects/">Projects</a></p>
+  <p class="small back"><a href="/projects/">← All projects</a></p>
   <h1>{d.title}</h1>
   {d.tagline && <p class="tagline">{d.tagline}</p>}
   <p class="small muted meta">
     {d.period}{d.stack.length > 0 && `. ${d.stack.join(', ')}`}
   </p>
-  <div class="hl"><Highlights items={d.highlights} size="lg" /></div>
+
   {
-    (d.repo || d.link || d.links.length > 0) && (
+    d.facts.length > 0 && (
+      <ul class="facts">
+        {d.facts.map((f) => (
+          <li>{f}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    links.length > 0 && (
       <p class="links">
-        {d.repo && <a href={d.repo}>Repository</a>}
-        {d.link && <a href={d.link}>Live</a>}
-        {d.links.map((l) => (
+        {links.map((l) => (
           <a href={l.href}>{l.label}</a>
         ))}
       </p>
     )
   }
-  {
-    (d.cover || import.meta.env.DEV) && (
-      <div class="cover">
-        <ProjectMedia src={d.cover} alt={d.coverAlt} fit={d.coverFit} title={d.title} eager />
-      </div>
-    )
-  }
+
   <div class="prose">
     <Content />
   </div>
+
+  {
+    d.photos.length > 0 && (
+      <section class="photos">
+        <h2>Photos</h2>
+        {d.photos.map((p) => (
+          <figure>
+            <img src={p.src} alt={p.alt} loading="lazy" />
+            {p.caption && <figcaption>{p.caption}</figcaption>}
+          </figure>
+        ))}
+      </section>
+    )
+  }
 </Base>
 
 <style>
   .back {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
   }
   h1 {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.2rem;
   }
   .tagline {
-    margin-bottom: 0.4rem;
-    font-size: 1.15rem;
-    color: var(--accent);
+    margin-bottom: 0.2rem;
   }
   .meta {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
-  .hl {
-    margin-bottom: 1rem;
+  .facts {
+    margin: 0 0 1.5rem;
+    padding-left: 1.1rem;
   }
-  .hl:empty {
-    display: none;
+  .facts li {
+    margin-bottom: 0.2rem;
   }
   .links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
-    margin-bottom: 1.75rem;
+    gap: 0.4rem 1.25rem;
+    margin-bottom: 2rem;
   }
-  .cover {
-    margin-bottom: 2.5rem;
+  .photos h2 {
+    margin-top: 3rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 </style>

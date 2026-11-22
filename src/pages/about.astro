@@ -1,16 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site';
-// TODO: this is a first draft. Rewrite the first paragraph in your own words.
 ---
 
 <Base title="About">
   <h1>About</h1>
   <div class="prose">
     <p>
-      I'm Kyungmin Inn, a Computer Engineering student at the University of Michigan. I work on vulnerability research
-      and exploitation: memory corruption in userland services, Windows kernel drivers, and embedded and IoT
-      firmware.
+      I'm Kyungmin Inn, a Computer Engineering student at the University of Michigan. I work on vulnerability
+      research and exploitation: memory corruption in userland services, Windows kernel drivers, and embedded and
+      IoT firmware. Lately that also means the physical side of it — a board on the bench, a probe on a pin, and
+      what the hardware leaks while it runs.
     </p>
     <p>
       I tend to treat security as computer architecture taken one level further. Reading allocator internals or a
@@ -20,24 +20,43 @@ import { SITE } from '../site';
 
     <h2>Now</h2>
     <p>
-      On leave from Michigan for independent research after military service in the Republic of Korea Army. Returning
-      to Ann Arbor in January 2027.
+      On leave from Michigan for independent research after military service in the Republic of Korea Army.
+      Returning to Ann Arbor in January 2027.
+    </p>
+
+    <h2>Education</h2>
+    <p>
+      <strong>University of Michigan</strong> — B.S.E. Computer Engineering, expected May 2029.<br />
+      GPA 3.96/4.00. James B. Angell Scholar, Dean's List.<br />
+      <span class="muted">Coursework: Programming and Data Structures (EECS 280), Discrete Mathematics (EECS 203).</span
+      >
+    </p>
+
+    <h2>Experience</h2>
+    <p>
+      <strong>Republic of Korea Army</strong>, Daegu — Satellite Communications Operator, Oct 2024 – Apr 2026.<br />
+      Recognized as an Outstanding Soldier by the company commander; completed the full term of service as Sergeant.
     </p>
 
     <h2>Timeline</h2>
-    <table class="timeline">
+    <table>
       <thead>
         <tr>
           <th scope="col">Period</th>
           <th scope="col">Where</th>
-          <th scope="col">Role</th>
+          <th scope="col">What</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Oct 2024 – Apr 2026</td>
+          <td>2026 –</td>
+          <td>Independent</td>
+          <td>Vulnerability research, embedded and hardware security</td>
+        </tr>
+        <tr>
+          <td>2024 – 2026</td>
           <td>Republic of Korea Army</td>
-          <td>Satellite Communications Operator, Sergeant (honorable discharge)</td>
+          <td>Satellite Communications Operator, Sergeant</td>
         </tr>
         <tr>
           <td>2023 – 2024</td>
@@ -52,29 +71,43 @@ import { SITE } from '../site';
       </tbody>
     </table>
 
-    <h2>Education</h2>
-    <p>
-      B.S.E. Computer Engineering, University of Michigan, expected 2029.<br />
-      <span class="muted">James B. Angell Scholar.</span>
-    </p>
+    <h2>Skills</h2>
+    <ul>
+      <li><strong>Languages:</strong> C, C++, Python, x86 and ARM assembly</li>
+      <li><strong>Systems and embedded:</strong> embedded Linux, STM32, bare metal, Keil µVision, ChipWhisperer</li>
+      <li><strong>Security and analysis:</strong> Ghidra, WinDbg, GDB, QEMU; reverse engineering, binary exploitation</li>
+    </ul>
 
-    <h2>Competitive programming</h2>
-    <p>Baekjoon: solved.ac Platinum (top ~6%)</p>
-
-    {
-      SITE.cvUrl && (
-        <p>
-          <a href={SITE.cvUrl}>Download CV (PDF)</a>
-        </p>
-      )
-    }
+    <h2>Contact</h2>
+    <ul>
+      {
+        SITE.email && (
+          <li>
+            Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </li>
+        )
+      }
+      {
+        SITE.github && (
+          <li>
+            GitHub: <a href={SITE.github}>{SITE.github.replace('https://', '')}</a>
+          </li>
+        )
+      }
+      {
+        SITE.velog && (
+          <li>
+            Velog (Korean): <a href={SITE.velog}>{SITE.velog.replace('https://', '')}</a>
+          </li>
+        )
+      }
+    </ul>
   </div>
 </Base>
 
 <style>
-  .timeline td:first-child {
+  td:first-child {
     white-space: nowrap;
-    font-variant-numeric: tabular-nums;
     color: var(--muted);
   }
 </style>

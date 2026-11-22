@@ -1,223 +1,76 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import ProjectMedia from '../../components/ProjectMedia.astro';
-import Highlights from '../../components/Highlights.astro';
 import { published } from '../../lib/util';
 
 const projects = (await getCollection('projects', published)).sort((a, b) => a.data.order - b.data.order);
-// The first project gets a full-width card; the rest share a grid.
-const [featured, ...rest] = projects;
 ---
 
-<Base title="Projects" description="Tools and systems I have built.">
+<Base title="Projects" description="Tools, systems, and hardware I have built.">
   <h1>Projects</h1>
-  <p class="muted intro">Tools and systems I have built, mostly for finding or understanding bugs.</p>
+  <p class="muted intro">Tools, systems, and hardware I have built, mostly for finding or understanding bugs.</p>
 
   {projects.length === 0 && <p class="muted">Nothing published yet.</p>}
-
-  {
-    featured && (
-      <article class="card featured">
-        <div class="body">
-          <h2>
-            <a href={`/projects/${featured.id}/`}>{featured.data.title}</a>
-            {featured.data.draft && <span class="draft small">draft</span>}
-          </h2>
-          {featured.data.tagline && <p class="tagline">{featured.data.tagline}</p>}
-          <p class="small muted period">{featured.data.period}</p>
-          <p>{featured.data.summary}</p>
-          {featured.data.stack.length > 0 && <p class="small muted">{featured.data.stack.join(', ')}</p>}
-        </div>
-        <ProjectMedia
-          src={featured.data.cover}
-          alt={featured.data.coverAlt}
-          fit={featured.data.coverFit}
-          title={featured.data.title}
-          eager
-        />
-        {featured.data.highlights.length > 0 && (
-          <div class="proof">
-            <Highlights items={featured.data.highlights} size="lg" />
-          </div>
-        )}
-      </article>
-    )
-  }
-
-  <div class="grid">
+  <ul class="list" role="list">
     {
-      rest.map((p) => (
-        <article class="card">
-          <ProjectMedia src={p.data.cover} alt={p.data.coverAlt} fit={p.data.coverFit} title={p.data.title} />
-          <div class="body">
-            <h2>
-              <a href={`/projects/${p.id}/`}>{p.data.title}</a>
-              {p.data.draft && <span class="draft small">draft</span>}
-            </h2>
-            {p.data.tagline && <p class="tagline">{p.data.tagline}</p>}
-            <p class="small muted period">{p.data.period}</p>
-            <p class="summary">{p.data.summary}</p>
-            {p.data.highlights.length > 0 && (
-              <div class="stats">
-                <Highlights items={p.data.highlights} />
-              </div>
-            )}
-            {p.data.stack.length > 0 && <p class="small muted stack">{p.data.stack.join(', ')}</p>}
-          </div>
-        </article>
+      projects.map((p) => (
+        <li>
+          <p class="small muted period">
+            {p.data.period}
+            {p.data.draft && <span class="draft"> · draft</span>}
+          </p>
+          <h2>
+            <a href={`/projects/${p.id}/`}>{p.data.title}</a>
+          </h2>
+          {p.data.tagline && <p class="tagline">{p.data.tagline}</p>}
+          <p class="summary">{p.data.summary}</p>
+          {p.data.stack.length > 0 && <p class="small muted stack">{p.data.stack.join(', ')}</p>}
+        </li>
       ))
     }
-  </div>
+  </ul>
 </Base>
 
 <style>
   .intro {
     max-width: 36rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
-  .card {
-    position: relative;
-    border: 1px solid var(--rule);
-    border-radius: 12px;
-    background: var(--glass);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    transition:
-      border-color 0.25s,
-      box-shadow 0.25s,
-      transform 0.25s;
-  }
-  .card:hover,
-  .card:focus-within {
-    border-color: var(--accent-line);
-    box-shadow:
-      0 0 0 1px rgb(255 210 122 / 0.12),
-      0 18px 40px -24px var(--glow);
-    transform: translateY(-2px);
-  }
-  /* The whole card is the link target, so keyboard focus has to show on the whole card. */
-  .card:has(h2 a:focus-visible) {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-  }
-  .card h2 a:focus-visible {
-    outline: none;
-  }
-  h2 a::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-  }
-  h2 {
-    font-size: var(--t-h3);
+  .list {
+    list-style: none;
     margin: 0;
+    padding: 0;
   }
-  h2 a {
-    color: var(--ink);
-    text-decoration-color: var(--accent);
-  }
-  .tagline {
-    margin: 0.2rem 0 0;
-    color: var(--accent);
-    font-size: 0.95rem;
+  .list li + li {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
   }
   .period {
-    margin: 0.15rem 0 0.6rem;
-  }
-  .body > p:last-child {
-    margin-bottom: 0;
-  }
-
-  .featured {
-    display: grid;
-    grid-template-columns: 1fr 16rem;
-    gap: 1.25rem 1.5rem;
-    padding: 1.4rem;
-    margin-bottom: 1rem;
-  }
-  .featured h2 {
-    font-size: var(--t-h2);
-  }
-  .featured .proof {
-    grid-column: 1 / -1;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .grid .card {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0.9rem 0.9rem 1.2rem;
-  }
-  .grid .body {
-    padding: 0 0.3rem;
-  }
-  .summary {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    overflow: hidden;
-    font-size: 0.98rem;
-  }
-  .stats {
-    margin-bottom: 0.8rem;
-  }
-  .stack {
-    margin-top: 0.8rem;
+    margin: 0;
   }
   .draft {
     color: var(--accent);
-    border: 1px solid var(--accent);
-    border-radius: 3px;
-    padding: 0 0.3em;
-    margin-left: 0.5rem;
-    font-weight: 400;
-    vertical-align: middle;
   }
-
-  @media (max-width: 40rem) {
-    .featured {
-      grid-template-columns: 1fr;
-      padding: 1rem;
-    }
-    .featured :global(.media) {
-      order: -1;
-    }
-    /* The rest collapse to rows: thumbnail, title, tagline. The detail page has the rest. */
-    .grid {
-      grid-template-columns: 1fr;
-      gap: 0.6rem;
-    }
-    .grid .card {
-      display: grid;
-      grid-template-columns: 6rem 1fr;
-      align-items: center;
-      gap: 0.9rem;
-      padding: 0.7rem;
-    }
-    .grid .body {
-      padding: 0;
-    }
-    .grid .summary,
-    .grid .stats,
-    .grid .stack {
-      display: none;
-    }
-    .grid .period {
-      margin-bottom: 0;
-    }
-    .grid h2 {
-      font-size: 1.05rem;
-    }
-    .grid .tagline {
-      font-size: var(--t-small);
-    }
+  h2 {
+    margin: 0.1rem 0 0.2rem;
+    font-size: 1.25rem;
+  }
+  h2 a {
+    color: var(--ink);
+    text-decoration-color: var(--rule);
+  }
+  h2 a:hover {
+    text-decoration-color: currentColor;
+  }
+  .tagline {
+    margin: 0 0 0.5rem;
+  }
+  .summary {
+    margin: 0;
+    color: var(--muted);
+  }
+  .stack {
+    margin: 0.5rem 0 0;
   }
 </style>

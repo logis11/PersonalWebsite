@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import { ACHIEVEMENTS } from '../data/achievements';
+---
+
+<Base title="Achievements" description="Disclosures, reproductions, awards, and recognition.">
+  <h1>Achievements</h1>
+  <p class="muted intro">
+    What I have reported, reproduced, or been recognized for. Findings still under coordinated disclosure are added
+    once the vendor has shipped a fix.
+  </p>
+
+  {
+    ACHIEVEMENTS.map((group) => (
+      <section>
+        <h2>{group.heading}</h2>
+        {group.note && <p class="small muted note">{group.note}</p>}
+        <ul role="list">
+          {group.items.map((item) => (
+            <li>
+              <p class="small muted when">{item.when}</p>
+              <div>
+                <h3>{item.href ? <a href={item.href}>{item.title}</a> : item.title}</h3>
+                {item.detail && <p class="detail">{item.detail}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .intro {
+    max-width: 36rem;
+    margin-bottom: 3rem;
+  }
+  h2 {
+    margin: 0 0 0.4rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .note {
+    margin: 0.6rem 0 0;
+  }
+  section + section {
+    margin-top: 3rem;
+  }
+  ul {
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: 0 1rem;
+  }
+  li + li {
+    margin-top: 1.5rem;
+  }
+  .when {
+    margin: 0.3rem 0 0;
+    white-space: nowrap;
+  }
+  h3 {
+    margin: 0 0 0.2rem;
+    font-size: 1.05rem;
+  }
+  .detail {
+    margin: 0;
+    color: var(--muted);
+  }
+  @media (max-width: 34rem) {
+    li {
+      grid-template-columns: 1fr;
+    }
+    .when {
+      margin: 0;
+    }
+  }
+</style>

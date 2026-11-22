@@ -3,8 +3,6 @@ title: 'OSTEP: From Virtualization to Concurrency'
 date: 2026-10-23
 summary: 'Working through Operating Systems: Three Easy Pieces, from how the OS virtualizes the CPU and memory to how threads share them safely.'
 tags: [operating systems]
-cover: /blog/ostep.svg
-coverAlt: Three processes taking turns on one CPU timeline, and threads converging on a lock.
 ---
 
 While I was studying binary exploitation, there was constant mention of virtual memory or race conditions. Also, when learning tcache poisoning, I faced the concept of threads, and when I was learning more about kernel vulnerabilities, I faced the concept of page tables. Although there was no specific issue with triggering vulnerabilities, I noticed learning the operating system would be valuable knowledge for both deepening my understanding of why some features exist despite risking potential vulnerabilities and helping me understand new concepts. After searching for a suitable book for me, I found OSTEP (Operating Systems: Three Easy Pieces), which was free and had an adequate difficulty level for me. It has three big chapters, which are virtualization, concurrency, and persistence, and I have read through the first two chapters, as I felt they are more related to potential vulnerabilities. The remaining post will briefly go over the virtualization and concurrency parts of OSTEP, and how they may apply to some vulnerability concepts.

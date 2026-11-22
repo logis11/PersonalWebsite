@@ -2,14 +2,20 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// TODO: replace with your real domain once it is bought and connected.
-// If you deploy to https://<user>.github.io/<repo>/ without a domain, also set `base: '/<repo>'`.
 export default defineConfig({
   site: 'https://kinn8.com',
   integrations: [sitemap()],
+  // Old addresses from the previous layout of the site.
+  redirects: {
+    '/blog': '/',
+    '/research': '/achievements/',
+    '/contact': '/about/',
+    '/ctf': '/',
+    '/projects/stm32-door-lock': '/projects/stm32-side-channel/',
+  },
   markdown: {
     shikiConfig: {
-      theme: 'github-dark-dimmed',
+      theme: 'github-light',
     },
   },
 });
