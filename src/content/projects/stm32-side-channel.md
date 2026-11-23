@@ -10,6 +10,7 @@ facts:
   - Measured PIN-comparison latency with the Cortex-M3 DWT cycle counter to show how an early-exit comparison leaks the number of correct digits.
   - Implemented a constant-time comparison and compared its timing against the original.
   - Now learning voltage fault injection with a ChipWhisperer-Nano, aiming to glitch past the PIN check (in progress).
+repo: https://github.com/logis11/STM32
 # Photos go in /public/projects/stm32-side-channel/ and are listed here:
 # photos:
 #   - { src: /projects/stm32-side-channel/bench.jpg, alt: 'Nucleo-F103RB wired to a ChipWhisperer-Nano on the bench', caption: 'The measurement setup' }

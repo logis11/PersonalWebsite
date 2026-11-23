@@ -12,6 +12,8 @@ export default defineConfig({
     '/contact': '/about/',
     '/ctf': '/',
     '/projects/stm32-door-lock': '/projects/stm32-side-channel/',
+    '/projects/huntail': '/projects/verdict/',
+    '/projects/scovillain': '/projects/sieve/',
   },
   markdown: {
     shikiConfig: {

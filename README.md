@@ -29,7 +29,7 @@ npm run preview  # 빌드 결과 확인
 파일 이름이 URL이 됨 (`src/content/blog/heap-notes.md` → `/blog/heap-notes/`).
 필드 목록과 설명은 `src/content.config.ts` 스키마 주석에 있음. `draft: true`면 개발 서버에서만 보이고 배포엔 안 나감.
 
-- **블로그** `src/content/blog/*.md` — 메인 페이지(`/`)가 이 목록. Velog 글 번역본이면 `canonical:`에 원문 URL
+- **블로그** `src/content/blog/*.md` — 메인 페이지(`/`)가 이 목록. 다른 곳에 먼저 올린 글이면 `canonical:`에 원문 URL
 - **프로젝트** `src/content/projects/*.md` — `order` 작을수록 위. `facts:`는 제목 아래 불릿
   - 사진은 `public/projects/<slug>/`에 넣고 frontmatter `photos:`에 `{ src, alt, caption }` 기입.
     각 프로젝트 파일에 주석으로 예시가 들어있음 (주석 풀고 파일만 넣으면 됨)

@@ -23,7 +23,7 @@ export const ACHIEVEMENTS: Group[] = [
         title: '7 vulnerability reports to Microsoft (MSRC)',
         detail:
           'Found with my Windows kernel driver pipeline. One, co-reported with a teammate, was confirmed and assigned a CVE (pending publication).',
-        href: '/projects/huntail/',
+        href: '/projects/verdict/',
       },
       {
         when: '2026',
@@ -82,12 +82,6 @@ export const ACHIEVEMENTS: Group[] = [
         when: '—',
         title: 'Baekjoon Online Judge — top 6%',
         detail: "100+ problems solved on Korea's largest online judge.",
-      },
-      {
-        when: '—',
-        title: '150+ posts on security and systems',
-        detail: 'Korean-language technical blog.',
-        href: 'https://velog.io/@sigol118',
       },
     ],
   },

@@ -1,8 +1,6 @@
 ---
 import '../styles/global.css';
-import { getCollection } from 'astro:content';
 import { SITE, NAV } from '../site';
-import { published } from '../lib/util';
 
 interface Props {
   title?: string;
@@ -13,9 +11,10 @@ const fullTitle = title ? `${title} | ${SITE.name}` : SITE.title;
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
 const home = path === '/';
-// A section with nothing published yet stays out of the nav; its page still exists.
+// A section with no entries at all stays out of the nav; its page still exists. Counted off the
+// files rather than the collection, so this costs nothing per page and drafts keep the link alive.
 const empty = new Set<string>();
-if ((await getCollection('writeups', published)).length === 0) empty.add('/writeups/');
+if (Object.keys(import.meta.glob('../content/writeups/*.{md,mdx}')).length === 0) empty.add('/writeups/');
 const nav = NAV.filter((n) => !empty.has(n.href));
 ---
 
@@ -57,7 +56,6 @@ const nav = NAV.filter((n) => !empty.has(n.href));
       <span>© {new Date().getFullYear()} {SITE.name}</span>
       <span class="links">
         {SITE.github && <a href={SITE.github}>GitHub</a>}
-        {SITE.velog && <a href={SITE.velog}>Velog</a>}
         <a href="/rss.xml">RSS</a>
       </span>
     </footer>

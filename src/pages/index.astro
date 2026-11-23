@@ -11,8 +11,7 @@ const posts = (await getCollection('blog', published)).sort(byDateDesc);
   <h1>{SITE.name}</h1>
   <p class="intro">
     I study how software breaks at the memory level: binary exploitation, Windows kernel drivers, and the firmware
-    inside routers, cameras, and the boards on my desk. Computer Engineering at the University of Michigan.{' '}
-    {SITE.velog && <>My day-to-day notes, in Korean, are on <a href={SITE.velog}>Velog</a>.</>}
+    inside routers, cameras, and the boards on my desk. Computer Engineering at the University of Michigan.
   </p>
 
   <h2 class="section">Writing</h2>

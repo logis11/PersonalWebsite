@@ -20,7 +20,7 @@ const d = entry.data;
     <p class="small muted meta">
       <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time>
       {d.tags.length > 0 && <span>, {d.tags.join(', ')}</span>}
-      {d.canonical && <span>. <a href={d.canonical}>Originally on Velog</a></span>}
+      {d.canonical && <span>. <a href={d.canonical}>Originally published here</a></span>}
     </p>
     <div class="prose">
       <Content />

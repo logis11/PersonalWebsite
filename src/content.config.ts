@@ -10,7 +10,7 @@ const blog = defineCollection({
     summary: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
-    // Point at the original Velog post if this is a translated/edited version.
+    // Point at the original post if this is a translated or edited version of one published elsewhere.
     canonical: z.string().url().optional(),
   }),
 });

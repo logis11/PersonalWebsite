@@ -1,5 +1,5 @@
 ---
-title: Huntail
+title: Verdict
 tagline: Autonomous vulnerability finding for Windows kernel drivers
 summary: An agent harness that finds real bugs in shipping Windows kernel drivers. It maps a driver's attack surface deterministically, then every candidate has to survive an adversarial panel that only confirms what verifies against the binary. Its findings have gone to MSRC and upstream maintainers.
 period: Jul 2026 — present
@@ -8,12 +8,12 @@ stack: [Python, Claude Agent SDK, MCP, PE32+, WDM/KMDF]
 facts:
   - 7 vulnerability reports submitted to Microsoft (MSRC); one, co-reported with a teammate, was confirmed and assigned a CVE (pending publication).
   - One upstream bug in virtio-win's viosock driver (issue #1686), confirmed by the maintainers with a fix in development.
-repo: https://github.com/logis11/Huntail
+repo: https://github.com/logis11/Verdict
 links:
   - { label: 'virtio-win #1686', href: 'https://github.com/virtio-win/kvm-guest-drivers-windows/issues/1686' }
-# Photos go in /public/projects/huntail/ and are listed here:
+# Photos go in /public/projects/verdict/ and are listed here:
 # photos:
-#   - { src: /projects/huntail/bench.jpg, alt: 'Debugging a driver over WinDbg on two machines', caption: 'Kernel debugging setup' }
+#   - { src: /projects/verdict/bench.jpg, alt: 'Debugging a driver over WinDbg on two machines', caption: 'Kernel debugging setup' }
 ---
 
 ## Results
@@ -27,7 +27,7 @@ links:
 ## How it works
 
 Frontier models already find most bugs; what they cannot do is stop reporting ones that are not there. So every
-gate in Huntail pushes the same way: it makes a confirmation harder to reach.
+gate in Verdict pushes the same way: it makes a confirmation harder to reach.
 
 - **Deterministic substrate.** PE parsing, `.pdata` function bounds and cross-build anchor relocation are plain
   Python. The model only judges.
@@ -38,4 +38,4 @@ gate in Huntail pushes the same way: it makes a confirmation harder to reach.
 - **Ledger outside the context.** An exhaustive JSON table of confirmed, rejected and unanalysed rows, checked by
   SDK hooks before a run is allowed to finish, so coverage cannot be faked by forgetting.
 
-Analysis tools reach the agent over MCP; the tool layer is [Scovillain](/projects/scovillain/).
+Analysis tools reach the agent over MCP; the tool layer is [Sieve](/projects/sieve/).
