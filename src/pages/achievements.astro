@@ -3,11 +3,12 @@ import Base from '../layouts/Base.astro';
 import { ACHIEVEMENTS } from '../data/achievements';
 ---
 
-<Base title="Achievements" description="Disclosures, reproductions, awards, and recognition.">
+<Base title="Achievements" description="Vulnerability identifiers assigned to my findings, and the ones I reproduced.">
   <h1>Achievements</h1>
   <p class="muted intro">
-    What I have reported, reproduced, or been recognized for. Findings still under coordinated disclosure are added
-    once the vendor has shipped a fix.
+    Vulnerability identifiers: the ones assigned to what I found, and the ones I rebuilt from someone else's
+    advisory. Work with a page of its own is under <a href="/projects/">Projects</a>; findings still under
+    coordinated disclosure are added once the vendor has shipped a fix.
   </p>
 
   {
@@ -18,7 +19,7 @@ import { ACHIEVEMENTS } from '../data/achievements';
         <ul role="list">
           {group.items.map((item) => (
             <li>
-              <p class="small muted when">{item.when}</p>
+              <p class="small id">{item.id}</p>
               <div>
                 <h3>{item.href ? <a href={item.href}>{item.title}</a> : item.title}</h3>
                 {item.detail && <p class="detail">{item.detail}</p>}
@@ -59,15 +60,18 @@ import { ACHIEVEMENTS } from '../data/achievements';
   }
   li {
     display: grid;
-    grid-template-columns: 6.5rem 1fr;
+    grid-template-columns: 10rem 1fr;
     gap: 0 1rem;
   }
   li + li {
     margin-top: 1.5rem;
   }
-  .when {
-    margin: 0.3rem 0 0;
+  .id {
+    margin: 0.35rem 0 0;
     white-space: nowrap;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
   }
   h3 {
     margin: 0 0 0.2rem;
@@ -81,8 +85,8 @@ import { ACHIEVEMENTS } from '../data/achievements';
     li {
       grid-template-columns: 1fr;
     }
-    .when {
-      margin: 0;
+    .id {
+      margin: 0 0 0.1rem;
     }
   }
 </style>

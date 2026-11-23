@@ -8,7 +8,7 @@ stack: [C, Python, Embedded Linux, IoT firmware]
 facts:
   - Dumped the firmware from SPI flash and recovered every socket call site by decoding PLT/BL targets, despite an encrypted main binary — narrowing 13 UDP and 9 TCP entry points to the single anonymous, LAN-reachable transport.
   - Statically decrypted the binary's XOR-stream encryption to read the transport parser, and found an unbounded match copy in its QuickLZ decompressor. With no stack canaries, the overflow reaches the return address.
-  - Reported to KISA via coordinated disclosure; patched, rated High severity, and awarded a bug bounty.
+  - Reported to KISA via coordinated disclosure; patched, rated High severity, and awarded a bug bounty. Assigned KVE-2026-1741.
 # Photos go in /public/projects/ip-camera-0day/ and are listed here:
 # photos:
 #   - { src: /projects/ip-camera-0day/flash-clip.jpg, alt: 'SOIC-8 clip on the camera board's SPI flash', caption: 'Dumping the flash' }
