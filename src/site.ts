@@ -9,9 +9,11 @@ export const SITE = {
   velog: 'https://velog.io/@sigol118',
 };
 
-// The whole site: a blog at the root plus these three pages.
+// The whole site: a blog at the root plus these pages. A section with nothing published
+// yet is left out of the nav by Base.astro; its page still exists.
 export const NAV = [
   { href: '/about/', label: 'About' },
   { href: '/projects/', label: 'Projects' },
+  { href: '/writeups/', label: 'Writeups' },
   { href: '/achievements/', label: 'Achievements' },
 ];

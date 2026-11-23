@@ -42,4 +42,20 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { blog, projects };
+// Analysis of one bug: a CVE reproduction, a CTF challenge, a target I took apart.
+const writeups = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/writeups' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    summary: z.string().optional(),
+    cve: z.string().optional(), // e.g. 'CVE-2025-55423'
+    target: z.string().optional(), // what was analyzed, e.g. 'ipTIME routers'
+    event: z.string().optional(), // the CTF this challenge came from
+    tags: z.array(z.string()).default([]), // e.g. ['pwn', 'firmware']
+    links: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, projects, writeups };

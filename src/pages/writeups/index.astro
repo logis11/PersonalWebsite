@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { published, byDateDesc, fmtMonth } from '../../lib/util';
+
+const items = (await getCollection('writeups', published)).sort(byDateDesc);
+---
+
+<Base title="Writeups" description="Analysis of single bugs: CVE reproductions, CTF challenges, targets taken apart.">
+  <h1>Writeups</h1>
+  <p class="muted intro">
+    One bug at a time: public CVEs rebuilt from the advisory, CTF challenges, and targets I took apart. Anything
+    still under coordinated disclosure goes up once the vendor has shipped a fix.
+  </p>
+
+  {items.length === 0 && <p class="muted">Nothing published yet.</p>}
+  <ul class="list" role="list">
+    {
+      items.map((w) => {
+        const meta = [w.data.cve, w.data.target, w.data.event, ...w.data.tags].filter(Boolean);
+        return (
+          <li>
+            <p class="small muted when">
+              <time datetime={w.data.date.toISOString()}>{fmtMonth(w.data.date)}</time>
+              {w.data.draft && <span class="draft"> · draft</span>}
+            </p>
+            <div>
+              <h2>
+                <a href={`/writeups/${w.id}/`}>{w.data.title}</a>
+              </h2>
+              {meta.length > 0 && <p class="small muted meta">{meta.join(' · ')}</p>}
+              {w.data.summary && <p class="summary">{w.data.summary}</p>}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+</Base>
+
+<style>
+  .intro {
+    max-width: 36rem;
+    margin-bottom: 3rem;
+  }
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: 0 1rem;
+  }
+  li + li {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .when {
+    margin: 0.3rem 0 0;
+    white-space: nowrap;
+  }
+  .draft {
+    color: var(--accent);
+  }
+  h2 {
+    margin: 0 0 0.15rem;
+    font-size: 1.2rem;
+  }
+  h2 a {
+    color: var(--ink);
+    text-decoration-color: var(--rule);
+  }
+  h2 a:hover {
+    text-decoration-color: currentColor;
+  }
+  .meta {
+    margin: 0 0 0.3rem;
+  }
+  .summary {
+    margin: 0;
+    color: var(--muted);
+  }
+  @media (max-width: 34rem) {
+    li {
+      grid-template-columns: 1fr;
+    }
+    .when {
+      margin: 0;
+    }
+  }
+</style>

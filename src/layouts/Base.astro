@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
 import { SITE, NAV } from '../site';
+import { published } from '../lib/util';
 
 interface Props {
   title?: string;
@@ -11,6 +13,10 @@ const fullTitle = title ? `${title} | ${SITE.name}` : SITE.title;
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
 const home = path === '/';
+// A section with nothing published yet stays out of the nav; its page still exists.
+const empty = new Set<string>();
+if ((await getCollection('writeups', published)).length === 0) empty.add('/writeups/');
+const nav = NAV.filter((n) => !empty.has(n.href));
 ---
 
 <!doctype html>
@@ -35,7 +41,7 @@ const home = path === '/';
         <a class="brand" href="/" aria-current={home ? 'page' : undefined}>{SITE.name}</a>
         <nav aria-label="Main">
           {
-            NAV.map((item) => (
+            nav.map((item) => (
               <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
                 {item.label}
               </a>

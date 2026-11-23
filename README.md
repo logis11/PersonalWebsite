@@ -1,6 +1,6 @@
 # portfolio
 
-Astro 정적 사이트. 메인은 블로그, 서브는 About / Projects / Achievements.
+Astro 정적 사이트. 메인은 블로그, 서브는 About / Projects / Writeups / Achievements.
 콘텐츠는 전부 마크다운/TS 데이터, 빌드 결과는 `dist/`의 순수 HTML.
 
 ## 로컬 실행
@@ -33,6 +33,8 @@ npm run preview  # 빌드 결과 확인
 - **프로젝트** `src/content/projects/*.md` — `order` 작을수록 위. `facts:`는 제목 아래 불릿
   - 사진은 `public/projects/<slug>/`에 넣고 frontmatter `photos:`에 `{ src, alt, caption }` 기입.
     각 프로젝트 파일에 주석으로 예시가 들어있음 (주석 풀고 파일만 넣으면 됨)
+- **라이트업** `src/content/writeups/*.md` — 버그 하나짜리 분석 (CVE 재현, CTF, 타겟 분해).
+  `cve:` `target:` `event:` `tags:` `links:` 전부 선택. 글이 하나도 없으면 메뉴에서 자동으로 숨겨짐
 - **성과** `src/data/achievements.ts` — 그룹별 배열. 새 항목은 해당 그룹 맨 위에
 
 ## 배포 (GitHub Pages)
@@ -61,11 +63,11 @@ build command `npm run build`, output `dist`, 환경변수 `NODE_VERSION=24`.
 
 ```
 src/
-  site.ts              이름, 링크, 네비게이션 (About / Projects / Achievements)
+  site.ts              이름, 링크, 네비게이션 (About / Projects / Writeups / Achievements)
   content.config.ts    콘텐츠 스키마 (frontmatter 검증)
-  content/{blog,projects}/
+  content/{blog,projects,writeups}/
   data/achievements.ts
-  pages/               / = 블로그 목록, blog/[id], about, projects, achievements, 404
+  pages/               / = 블로그 목록, blog/[id], about, projects, writeups, achievements, 404
   layouts/Base.astro   헤더/푸터/메타
   styles/global.css    색·타입 토큰 (라이트 단일, 장식 없음)
 public/
