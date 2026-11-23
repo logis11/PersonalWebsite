@@ -13,6 +13,13 @@ export const ACHIEVEMENTS: Group[] = [
     heading: 'Assigned to my findings',
     items: [
       {
+        id: 'CVE-2026-112979',
+        title: 'Windows State Repository Service tampering',
+        detail:
+          'Weak authentication in the Windows State Repository Service lets an authorized local attacker tamper with state (CWE-1390, CVSS 5.5). Reported to MSRC with a teammate; published 10 Nov 2026.',
+        href: 'https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-112979',
+      },
+      {
         id: 'KVE-2026-1741',
         title: 'IP camera pre-auth RCE to root',
         detail:
